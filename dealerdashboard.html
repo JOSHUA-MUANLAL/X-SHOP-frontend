@@ -521,7 +521,7 @@
                 });
 
                 try {
-                    await axios.post('http://localhost:8080/addproducts', formData, {
+                    await axios.post('https://x-shop-server.onrender.com/addproducts', formData, {
                         headers: { Authorization: token },
                     });
 
@@ -541,7 +541,7 @@
             async getdealerdata(){
                 try{
                   this.loading=true
-                    let response=await axios.get('http://localhost:8080/getdealerdata',{
+                    let response=await axios.get('https://x-shop-server.onrender.com/getdealerdata',{
                         headers:{
                           Authorization: token
                         }
@@ -562,7 +562,7 @@
             },
             async productdetail(){
                 try{ this.loading=true
-                    let response=await axios.get('http://localhost:8080/getdealerproductdetail',{
+                    let response=await axios.get('https://x-shop-server.onrender.com/getdealerproductdetail',{
                         headers:{
                           Authorization: token
                         }

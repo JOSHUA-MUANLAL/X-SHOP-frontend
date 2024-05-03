@@ -518,7 +518,7 @@ div.myorders{
             try{
               this.loading=true
 
-              let response=await axios.get('http://localhost:8080/getallproduct',{
+              let response=await axios.get('https://x-shop-server.onrender.com/getallproduct',{
                 headers:{
                   Authorization:token
                 }
@@ -541,7 +541,7 @@ div.myorders{
           async removefromcart(i){
             try{
               this.loading=true
-              let response=await axios.post('http://localhost:8080/removefromcart',{
+              let response=await axios.post('https://x-shop-server.onrender.com/removefromcart',{
                 product_id:i
               },{
                 headers:{
@@ -565,7 +565,7 @@ div.myorders{
           async removefromwishlist(i){
             try{
               this.loading=true
-              let response=await axios.post('http://localhost:8080/removefromwishlist',{
+              let response=await axios.post('https://x-shop-server.onrender.com/removefromwishlist',{
                 product_id:i
               },{
                 headers:{
@@ -588,7 +588,7 @@ div.myorders{
             async getuserdata(){
                 try{
                   this.loading=true
-                    let response=await axios.get('http://localhost:8080/getuserdata',{
+                    let response=await axios.get('https://x-shop-server.onrender.com/getuserdata',{
                         headers:{
                           Authorization: token 
                         }
@@ -613,7 +613,7 @@ div.myorders{
            async order(){
               try{
                 this.loading=true
-                let response=await axios.post('http://localhost:8080/orderproceed',{
+                let response=await axios.post('https://x-shop-server.onrender.com/orderproceed',{
                   order:this.order_selected
                 },{
                   headers:{
@@ -643,7 +643,7 @@ div.myorders{
                   this.loading=true
                      if(this.product_name_entered){
                       alert("searching product")
-                        let response = await axios.post('http://localhost:8080/getproductdetail',{
+                        let response = await axios.post('https://x-shop-server.onrender.com/getproductdetail',{
                             search_product:this.product_name_entered
                         },{
                             headers:{
@@ -692,7 +692,7 @@ div.myorders{
             async addtowishlist(i){
               try{
 
-                let response=await axios.post('http://localhost:8080/addtowishlist',{
+                let response=await axios.post('https://x-shop-server.onrender.com/addtowishlist',{
                   item:i
                 },{
                   headers:{
@@ -714,7 +714,7 @@ div.myorders{
             },
             async addtocart(i){
               try{
-                let response=await axios.post('http://localhost:8080/addtocart',{
+                let response=await axios.post('https://x-shop-server.onrender.com/addtocart',{
                   id:i
                 },{
                   headers:{

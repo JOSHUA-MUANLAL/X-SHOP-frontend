@@ -307,7 +307,7 @@
                 try{
                     this.loading=true;
 
-                    let response=await axios.get('http://localhost:8080/getdeliverydata')
+                    let response=await axios.get('https://x-shop-server.onrender.com/getdeliverydata')
 
                     if(response.status===200){
                         this.deliverydata=response.data
@@ -324,7 +324,7 @@
             async checkotp(id,useremail,product_id){
                 try{
                     this.loading=true;
-                    let response=await axios.post('http://localhost:8080/checkdeliveryotp',{
+                    let response=await axios.post('https://x-shop-server.onrender.com/checkdeliveryotp',{
                         otp:this.otp,
                         order_id:id,
                         email:useremail,

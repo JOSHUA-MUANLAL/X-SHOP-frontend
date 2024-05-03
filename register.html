@@ -204,7 +204,7 @@
             async submitForm(){alert("register")
                 try{this.loading=true
                    if(this.role=='user'){
-                    let response=await axios.post('http://localhost:8080/userregister',{
+                    let response=await axios.post('https://x-shop-server.onrender.com/userregister',{
                         email:this.email,
                         password:this.password,
                         name:this.name,
@@ -228,7 +228,7 @@
                     }
 
                    }else{
-                    let response=await axios.post('http://localhost:8080/dealerregister',{
+                    let response=await axios.post('https://x-shop-server.onrender.com/dealerregister',{
                         email:this.email,
                         password:this.password,
                         name:this.name,
@@ -266,7 +266,7 @@
                     alert("here")
                     if(this.email!='' && this.newpassword!='' && this.name!='' && this.phone!='' && this.dob!='' && this.role!='' ){
                         this.loading=true;
-                        let response=await axios.post('http://localhost:8080/sentotp',{
+                        let response=await axios.post('https://x-shop-server.onrender.com/sentotp',{
                             email:this.email,
                             role:this.role
     
