@@ -310,7 +310,8 @@ div.myorders{
     <h4>Order Date : {{x.order_date}} </h4>
     <h4>Delivery OTP : {{x.delivery_otp}} </h4>
 
-  </div> </p>
+  </div> 
+  <button id="logout" class="btn btn-primary absoulte bottom-4 px-4" @click="logout">LOGOUT</button></p>
 </div>
 
 <div id="wishlist-panel" class="slide-panel">
@@ -740,7 +741,11 @@ div.myorders{
               }
     
               
-            }
+            },logout(){
+              this.loading=true
+              sessionStorage.removeItem('token');
+              window.location.href = 'login.html';
+          }
         }
 
         

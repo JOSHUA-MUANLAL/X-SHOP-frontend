@@ -285,6 +285,7 @@
 <div id="profile-panel" class="slide-panel">
   <h2>{{userdetail.dealer_name}}</h2>
   <p>Company_name {{userdetail.company_name}}</p>
+  <button id="logout" class="btn btn-primary absoulte bottom-4 px-4" @click="logout">LOGOUT</button>
 </div>
 
 <div id="wishlist-panel" class="slide-panel">
@@ -594,7 +595,11 @@
               if (this.currentPage > 1) {
                 this.currentPage--;
               }
-            }
+            },logout(){
+              this.loading=true
+              sessionStorage.removeItem('token');
+              window.location.href = 'login.html';
+          }
             
         }
     })
