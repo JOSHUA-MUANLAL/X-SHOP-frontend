@@ -377,6 +377,7 @@
     <div v-if="open" class="modal-overlay">
       <div class="modal">
           <h3>Product Added</h3>
+          <button class="btn btn-danger" @click="open=!open">ok</button>
       </div>
   </div>
 
@@ -532,7 +533,7 @@
                     alert('Error uploading images.');
                 }finally{
                   this.loading=false
-                  this.open=false
+                  
                 }
             },
             async getdealerdata(){
