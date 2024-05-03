@@ -531,6 +531,7 @@
                 } catch (error) {
                     console.error('Error uploading images:', error);
                     alert('Error uploading images.');
+                    alert(response.data.message)
                 }finally{
                   this.loading=false
                   this.productdetail()
@@ -553,6 +554,7 @@
                 }catch(error){
                     alert(error)
                     alert("Failed to fetch Dealer data")
+                    alert(response.data.message)
                 
             }finally{
               this.loading=false

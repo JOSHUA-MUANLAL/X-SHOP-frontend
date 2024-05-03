@@ -253,7 +253,9 @@
                     }
 
                    }
-                }catch(error){alert(error)
+                }catch(error){
+                    alert(error)
+                    alert(response.data.message)
 
                 }finally{
                     
@@ -284,6 +286,7 @@
                         alert("Please enter all field")}
                 }catch(error){
                     alert(error)
+                    alert(response.data.message)
                     alert("herer")
                 }finally{this.loading=false}
             }, 
