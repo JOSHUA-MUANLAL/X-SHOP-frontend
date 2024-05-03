@@ -1,0 +1,314 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register Page</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="https://unpkg.com/vue@3.2.19/dist/vue.global.prod.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/nodemailer@6"></script>
+    <script src="https://cdn.jsdelivr.net/npm/smtp-connection@4"></script>
+    <style>
+        .spinner-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(255, 255, 255, 0.7); /* Translucent white */
+            z-index: 9999;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+          }
+      
+          .spinner {
+            border: 4px solid #f3f3f3; /* Light grey */
+            border-top: 4px solid #3498db; /* Blue */
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+          }
+      
+          @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+          }
+
+          .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 9999;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            width: 300px;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body class="bg-gray-200">
+    <div class="min-h-screen flex justify-center items-center" id="register">
+        
+        <div class="dashboard-container" id="dashboard">
+            <div v-if="loading" class="spinner-overlay">
+                <div class="spinner"></div>
+                </div>
+        <div class="bg-white p-8 rounded-lg shadow-lg">
+            <h2 class="text-2xl font-semibold mb-6">Register</h2>
+            <form @submit.prevent="sentotp">
+                <div class="mb-4">
+                    <label for="email" class="block text-gray-700 text-sm font-bold mb-2">Email Address</label>
+                    <super><span class="text-sm text-red-900 font-bold">{{emaildmsg}}</span></super>
+                    <input type="email" id="email" name="email" placeholder="Enter your email" v-model="email" required
+                        class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600">
+                </div>
+                <div class="mb-4">
+                    <label for="phone" class="block text-gray-700 text-sm font-bold mb-2">Phone Number</label>
+                    <input type="tel" id="phone" name="phone" placeholder="Enter your phone number" v-model="phone" required
+                        
+                        class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600">
+                    <small class="text-gray-500">Format: 123-456-7890</small>
+                </div>
+                <div class="mb-4">
+                    <label for="dob" class="block text-gray-700 text-sm font-bold mb-2">Date of Birth</label>
+                    <input type="date" id="dob" name="dob" v-model="dob" required
+                        class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600">
+                </div>
+                <div class="mb-4">
+                    <label for="name" class="block text-gray-700 text-sm font-bold mb-2">Full Name</label>
+                    <input type="text" id="name" name="name" placeholder="Enter your full name" v-model="name" required
+                        class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600">
+                </div>
+                <div class="mb-4">
+                    <label for="password" class="block text-gray-700 text-sm font-bold mb-2">Select Role</label>
+                    User :<input type="radio" id="user" name="role" value="user" v-model="role" required
+                        class="w-10 px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600">
+                    Admin :<input type="radio" id="admin" name="role" value="dealer" v-model="role" required
+                        class="w-10 px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600">
+                </div>
+                <div class="mb-4">
+                    <label for="address" class="block text-gray-700 text-sm font-bold mb-2">Address</label>
+                    <input  type="text" id="address" name="address" placeholder="Enter your Address" v-model="address" required
+                        class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600">
+                </div>
+                <div class="mb-4">
+                    <label for="Pin Code" class="block text-gray-700 text-sm font-bold mb-2">Area Pin</label>
+                    <input  type="number" id="pin" name="pin" placeholder="Enter your Area Pin Code" v-model="pin_code" required
+                        class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600">
+                </div>
+
+                <div class="mb-4" v-show="role=='dealer'">
+                    <label for="address" class="block text-gray-700 text-sm font-bold mb-2">Company Name</label>
+                    <input  type="text" id="company" name="company" placeholder="Enter your Company name" v-model="company" 
+                        class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600">
+                </div>
+
+
+
+                <div class="mb-4">
+                    <label for="password" class="block text-gray-700 text-sm font-bold mb-2">Password</label>
+                    <input type="password" id="password" name="password" placeholder="Enter your password" v-model="password" required
+                        class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600">
+                </div>
+                <div class="mb-4">
+                    <super><span class="text-sm text-red-900 font-bold">{{passwordmsg}}</span></super>
+                    <label for="confirm_password"
+                        class="block text-gray-700 text-sm font-bold mb-2">Confirm Password</label>
+                    <input type="password" id="confirm_password" name="confirm_password"
+                        placeholder="Confirm your password"  v-model="confirmpassword" @input="confirmpasswords" required
+                        class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600">
+                </div>
+                <button  :disabled="!passwordsMatch"  
+                    class="w-full bg-blue-500 text-white font-bold py-2 px-4 rounded-lg hover:bg-blue-600 focus:outline-none focus:bg-blue-600">Register</button>
+                    <center><a class="text-center text-blue-800 text-sm font-bold underline" href="login.html" >Already Have An Account?</a>
+                    <br><a class="text-center text-pink-800 text-sm font-bold " href="https://joshua-muanlal.github.io/Aeonaxy-frontend/" >Home</a></center> 
+            </form>
+        </div>
+
+
+        <div v-if="otpVisible" class="modal-overlay">
+            <div class="modal">
+                <h3>Enter OTP</h3><span class="text-red-600">{{otpmsg}}</span>
+                <input type="text" v-model="cotp" placeholder="Enter OTP" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600">
+                <button @click="checkotp"
+                    class="bg-blue-500 text-white font-bold py-2 px-4 rounded-lg mt-4 hover:bg-blue-600 focus:outline-none focus:bg-blue-600">
+                    Submit
+                </button>
+            </div>
+        </div>
+    </div>
+</body>
+<script>
+    let app=Vue.createApp({
+        data(){
+            return{
+                email:'',
+                emsg:'',
+                role:'',
+                address:'',
+                pin_code:'',
+                state:'',
+                company:'',
+              
+                phone:'',
+                dob:'',
+                name:'',
+                password:'',
+                confirmpassword:'',
+                passwordmsg:'',
+                loading:false,
+                otp:'',
+                cotp:'',
+                otpVisible: false,
+                otpmsg:''
+
+
+            }
+        },
+        computed:{
+            passwordsMatch(){
+                return this.password === this.confirmpassword;
+            }
+        },
+        methods:{
+            confirmpasswords(){
+                if(this.password!=this.confirmpassword ){
+                    this.passwordmsg="Password do not match, please check again"
+
+
+                }else{
+                    this.passwordmsg="Password matches"
+                }
+
+
+
+            },
+            async submitForm(){alert("register")
+                try{this.loading=true
+                   if(this.role=='user'){
+                    let response=await axios.post('http://localhost:8080/userregister',{
+                        email:this.email,
+                        password:this.password,
+                        name:this.name,
+                        dob:this.dob,
+                        phone:this.phone,
+                        address:this.address,
+                        pin:this.pin_code,
+                        state:this.state
+                      
+                    })
+
+                    if(response.status===201){
+                        this.emailmsg="Email Doesnt exist"
+
+                    }else if(response.status===200){
+                        this.loading=true;
+                        
+                        window.location.href = 'login.html';
+                    }else if(response.status===201){
+                        this.emailmsg=response.data.message
+                    }
+
+                   }else{
+                    let response=await axios.post('http://localhost:8080/dealerregister',{
+                        email:this.email,
+                        password:this.password,
+                        name:this.name,
+                        dob:this.dob,
+                        phone:this.phone,
+                        address:this.address,
+                        pin:this.pin_code,
+                        state:this.state,
+                        company:this.company
+                      
+                    })
+
+                    if(response.status===201){
+                        this.emailmsg="Email Doesnt exist"
+
+                    }else if(response.status===200){
+                        this.loading=true;
+                        
+                        window.location.href = 'dealerlogin.html';
+                    }else if(response.status===201){
+                        this.emailmsg=response.data.message
+                    }
+
+                   }
+                }catch(error){alert(error)
+
+                }finally{
+                    this.loading=false
+                }
+            },async sentotp(){
+                try{
+                    alert("here")
+                    if(this.email!='' && this.newpassword!='' && this.name!='' && this.phone!='' && this.dob!='' && this.role!='' ){
+                        this.loading=true;
+                        let response=await axios.post('http://localhost:8080/sentotp',{
+                            email:this.email,
+                            role:this.role
+    
+                        })
+    
+                        if(response.status===200){this.loading=false
+                            this.otpVisible=true
+                            this.otp=response.data.otp
+                           
+                            this.loading=false
+    
+                            
+                        }else{
+                           alert(response.data.message)
+                        }
+                    }else{
+                        alert("Please enter all field")}
+                }catch(error){
+                    alert(error)
+                    alert("herer")
+                }finally{this.loading=false}
+            }, 
+            checkotp(){
+                this.loading=true
+                if(this.cotp==this.otp){
+                    this.otp=''
+                    this.cotp=''
+                    this.submitForm()
+                }else{
+                    this.otpmsg='OTP Missmatch'
+
+                }
+                
+
+            }
+            
+
+        }
+    })
+
+    app.mount('#register')
+
+
+
+
+</script>
+
+</html>

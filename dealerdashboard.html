@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title> Dealer Dashboard</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script src="https://unpkg.com/vue@3.2.19/dist/vue.global.prod.js"></script>
+
+  <script src="https://cdn.jsdelivr.net/npm/nodemailer@6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/smtp-connection@4"></script>
+    <style>
+
+    @font-face {
+        font-family: 'MyCustomFont';
+        src: url('rog.ttf') format('truetype'); /* Define the source */
+      }
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'MyCustomFont', sans-serif;
+      background-color: #111;
+      color: #eee;
+    }
+    .navbar {
+      display: flex;
+      justify-content: space-around;
+      padding: 10px;
+      background-color: #333;
+    }
+    .navbar button {
+      background-color: #333;
+      color: #eee;
+      border: none;
+      padding: 10px 20px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+    .navbar button:hover {
+      background-color: #777;
+    }
+    .slide-panel {
+      position: fixed;
+      top: 0;
+      bottom: 0;
+      width: 60%;
+      background-color: #222;
+      z-index: 1000;
+      overflow: auto;
+      transition: transform 0.5s ease;
+      padding: 20px;
+    }
+    #profile-panel {
+      left: 0;
+      transform: translateX(-100%);
+    }
+    #wishlist-panel,
+    #message-panel {
+      right: 0;
+      transform: translateX(100%);
+    }
+    .overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 999;
+      display: none;
+    }
+
+
+    span.items{
+        font-size: 2vh;
+
+
+      }
+
+    button{
+        background-color: black;
+    }
+
+    button.addproduct{
+        background-color: white;
+        color:green;
+        border-radius: 4px;
+        margin-top: 20px;
+    }
+
+   
+
+   
+
+    div.product-list{
+        border-radius:10px;
+        padding:8px;
+        background-color: #333;
+        margin: 10px;
+        width:70%;
+    }
+    
+
+    div.image_product{
+      height:30vh;
+      width:100%;
+    }
+   .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 9999;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            width: 300px;
+            text-align: center;
+        }
+
+        .coursebox{
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            background-color: #111;
+            
+        }
+
+        .course-panel {
+            border: 1px solid #ccc;
+            border-radius: 8px;
+
+           
+         
+            display: none;
+            padding: 10px;
+            
+            max-width: 50vw;
+            height:260px;
+            margin-top: 5px;
+            overflow-y:auto;
+        }
+
+        .carousel-container {
+          position: relative;
+          overflow: hidden;
+          width: 20vw; /* 20% of the viewport width */
+          height: 20vw; /* Keeping it proportional */
+      }
+      
+      .carousel {
+          display: flex;
+          width:20vw;
+          transition: transform 0.3s ease; /* Smoother transition */
+      }
+      
+      .carousel img {
+          width: 20vw; /* Keep the image width consistent */
+          height: 20vw; /* Adjust height to maintain proportions */
+          object-fit: cover; /* Ensure images fit within the defined area */
+      }
+
+     
+      
+      .carousel-arrow {
+          position: absolute;
+          top: 50%;
+          transform: translateY(-50%);
+          background: rgba(0, 0, 0, 0.6); /* Semi-transparent background for the arrows */
+          color: white;
+          border: none;
+          padding: 10px;
+          cursor: pointer;
+          z-index: 10;
+      }
+      
+      .carousel-arrow.left {
+          left: 5px; /* Position to the left */
+      }
+      
+      .carousel-arrow.right {
+          right: 5px; /* Position to the right */
+      }
+
+      .spinner-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(255, 255, 255, 0.7); /* Translucent white */
+        z-index: 9999;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+  
+      .spinner {
+        border: 4px solid #f3f3f3; /* Light grey */
+        border-top: 4px solid #3498db; /* Blue */
+        border-radius: 50%;
+        width: 50px;
+        height: 50px;
+        animation: spin 1s linear infinite;
+      }
+  
+      @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+      }
+      
+    
+
+    
+  </style>
+</head>
+<body id="dashboard">
+  <div v-if="loading" class="spinner-overlay">
+    <div class="spinner"></div>
+    </div>
+      
+    <div v-if="click" class="modal-overlay text-black text-xs"  >
+        <div class="modal">
+            <h3>Enter Product detail</h3><span class="text-red-600"></span>
+            Product Name:<br>
+            <input type="text" v-model="productname" placeholder="Enter Name" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600">
+            <br>Type:<br>
+            <input type="text" v-model="product_type" placeholder="Enter Type" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600">
+            <br>
+            Price:<br>
+            <input type="number" v-model="product_price" placeholder="Enter Price" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600">
+            <br>
+            Quantity:<br>
+            <input type="number" v-model="product_quantity" placeholder="Enter Quantity" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600">
+<br><br>
+            <input type="file" multiple @change="onFileChange"><br>
+
+            <!-- List of Selected Images -->
+            <h2>Selected Images</h2>
+            <div v-if="selectedImages.length === 0">No images selected</div>
+            <div v-for="(file, index) in selectedImages" :key="index">
+                {{ file.name }} <!-- Display file names to confirm selection -->
+            </div>
+    
+            <!-- Button to Upload All Images -->
+            
+
+            
+
+
+
+            <button @click="addproduct"
+                class="bg-blue-500 text-white font-bold py-2 px-4 rounded-lg mt-4 hover:bg-blue-600 focus:outline-none focus:bg-blue-600">
+                Submit
+            </button>
+            <button @click="clearimages"
+                class="bg-red-500 text-white font-bold py-2 px-4 rounded-lg mt-4 hover:bg-red-800 focus:outline-none focus:bg-blue-600">
+                Exit
+            </button>
+            
+        </div>
+    </div>
+
+<div class="navbar">
+  <button onclick="openPanel('profile')" class="glyphicon glyphicon-user">Profile</button>
+  <button onclick="openPanel('wishlist')">Orders</button>
+  
+</div>
+
+<div id="profile-panel" class="slide-panel">
+  <h2>{{userdetail.dealer_name}}</h2>
+  <p>Company_name {{userdetail.company_name}}</p>
+</div>
+
+<div id="wishlist-panel" class="slide-panel">
+    Wishlist
+  <div class="wishlist">
+  
+  </div>
+  <br>
+  
+ 
+
+
+
+</div>
+
+<div id="message-panel" class="slide-panel">
+    Order
+    <div class="order-list" v-for="order in product_data.orders">
+        <h1>Product</h1>
+
+    </div>
+   
+</div>
+
+<div id="overlay" class="overlay" onclick="closePanels()" ></div>
+
+
+
+<!--For Product search-->
+<div class="product-search">
+  <center><h1>  My Product List</h1><br><br>
+<button class="addproduct" @click="click=!click">Add Product </button></center>
+  <center>
+    <div class="product-list"   v-for="item in paginatedData">
+
+      <div class="carousel-container">
+          <div class="carousel" :style="{ transform: `translateX(-${item.currentImage * 100}%)` }">
+              <img class="carousel" v-for="(image, index) in item.images" :src="`data:${image.mimeType};base64,${image.imageData}`" :alt="'Product Image ' + index" :key="index">
+          </div>
+          <button class="carousel-arrow left" @click="prevImage(item)">&lt;</button>
+          <button class="carousel-arrow right" @click="nextImage(item)">&gt;</button>
+      </div>
+
+      <h2>Product Name: {{item.item_name}}</h2>
+      <span>Price: {{item.item_price}}</span><br>
+      <span>Type: {{item.item_type}}</span>
+      <br>
+      <button class="dropdown-btn" onclick="toggleDropdown(this)">Orders pending</button>&nbsp;
+
+
+
+          
+      <div class="course-panel">
+         <div class="coursebox" v-for="order in item.orders" :key="customer_email">
+             <p><strong>Customer email: {{order.customer_email}}</strong> </p>
+             <p><strong>Name: {{order.customer_name}}</strong> </p>
+             <p><strong>Quantity: {{order.quantity_ordered}}</strong> </p>
+             <p><strong>Address: {{order.address}}</strong> </p>
+             <p><strong>Pin: {{order.pin_code}}</strong> </p>
+         </div>
+     </div>
+  </div>
+  </center>
+     
+            
+        </div>
+   
+</div>
+
+<!--Pagination -->
+<center><div>
+    <button class="btn btn-secondary text-sm bg-blue-900 px-4 rounded-md" @click="previousPage" :disabled="currentPage === 1">Previous</button>
+    <span>Page {{ currentPage }} of {{ totalPages }}</span>
+    <button class="btn btn-secondary text-sm bg-blue-900 px-4 rounded-md" @click="nextPage" :disabled="currentPage === totalPages">Next</button>
+  </div></center>
+
+
+
+
+
+
+
+</div>
+<script>
+    function toggleDropdown(btn) {
+        var panel = btn.nextElementSibling;
+        if (panel.style.display === "block") {
+            panel.style.display = "none";
+        } else {
+            panel.style.display = "block";
+        }
+    }
+
+
+
+  function openPanel(panelId) {
+    closePanels(); // Close all panels before opening the new one
+
+    document.getElementById('overlay').style.display = 'block';
+
+    const panel = document.getElementById(panelId + '-panel');
+    if (panelId === 'profile') {
+      panel.style.transform = 'translateX(0)';
+    } else {
+      panel.style.transform = 'translateX(0)';
+    }
+  }
+
+  function closePanels() {
+    document.getElementById('overlay').style.display = 'none';
+
+    const panels = document.querySelectorAll('.slide-panel');
+    panels.forEach(panel => {
+      if (panel.id === 'profile-panel') {
+        panel.style.transform = 'translateX(-100%)';
+      } else {
+        panel.style.transform = 'translateX(100%)';
+      }
+    });
+  }
+
+
+  const token = sessionStorage.getItem('token')
+    const isRefreshing = performance.navigation.type === 1;
+    if (!token ) {
+      window.location.href = 'dealerlogin.html';
+    }
+ 
+
+
+
+    const app=Vue.createApp({
+        data(){
+            return{
+                click:false,
+                product_data:[],
+                userdetail:[],
+                count:[{
+                    item:1,
+                    cost:200
+                }
+              ],
+                
+               
+                
+                currentPage: 1,
+                pageSize: 5,
+                selectedImages:[],
+                productname:'',
+                product_type:'',
+                product_price:'',
+                product_quantity:'',
+                loading:true
+                
+
+            }
+        },
+        computed: {
+            totalPages() {
+              return Math.ceil(this.product_data.length / this.pageSize);
+            },
+            paginatedData() {
+              const startIndex = (this.currentPage - 1) * this.pageSize;
+              const endIndex = startIndex + this.pageSize;
+              return this.product_data.slice(startIndex, endIndex);
+            },
+            
+          },
+        created(){
+            this.getdealerdata()
+        },
+        methods:{
+            nextImage(item) {
+                if (item.currentImage < item.images.length - 1) {
+                    item.currentImage++;
+                } else {
+                    item.currentImage = 0; // Loop back to the first image
+                }
+            },
+            prevImage(item) {
+                if (item.currentImage > 0) {
+                    item.currentImage--;
+                } else {
+                    item.currentImage = item.images.length - 1; // Loop back to the last image
+                }
+            },
+            clearimages(){
+                this.click=false;
+                this.selectedImages=[]
+                this.productname=''
+                this.product_price=''
+                this.product_quantity=''
+                this.product_type=''
+            },
+            onFileChange(event) {
+                const newFiles = Array.from(event.target.files); // Convert FileList to an array
+                this.selectedImages = this.selectedImages.concat(newFiles); // Add new files to the existing array
+            },
+            async addproduct() {
+                if(this.product_price=='' && this.productname=='' && this.product_price=='' && this.product_quantity=='' && this.product_type==''){
+                    alert('Please enter product filed')
+                    return 
+                }
+                this.loading=true
+               
+
+
+                // Create FormData to send all collected images
+                const formData = new FormData();
+                formData.append('productname', this.productname);
+                formData.append('product_price', this.product_price);
+                formData.append('product_type', this.product_type);
+                formData.append('product_quantity', this.product_quantity);
+
+                // Append each file to FormData
+                this.selectedImages.forEach((file) => {
+                    formData.append('images', file);
+                });
+
+                try {
+                    await axios.post('http://localhost:8080/addproducts', formData, {
+                        headers: { Authorization: token },
+                    });
+
+                    alert('Images uploaded successfully');
+                   
+                    this.selectedImages = []; // Clear the array after upload
+                } catch (error) {
+                    console.error('Error uploading images:', error);
+                    alert('Error uploading images.');
+                }finally{
+                  this.loading=false
+                }
+            },
+            async getdealerdata(){
+                try{
+                  this.loading=true
+                    let response=await axios.get('http://localhost:8080/getdealerdata',{
+                        headers:{
+                          Authorization: token
+                        }
+                    })
+
+                    if(response.status===200){
+                        this.userdetail=response.data
+                        this.productdetail()
+                    }
+                }catch(error){
+                    alert(error)
+                    alert("Failed to fetch Dealer data")
+                
+            }finally{
+              this.loading=false
+            }
+            },
+            async productdetail(){
+                try{ this.loading=true
+                    let response=await axios.get('http://localhost:8080/getdealerproductdetail',{
+                        headers:{
+                          Authorization: token
+                        }
+                    })
+
+                    if(response.status===200){
+                        this.product_data=response.data;
+                    }else{
+                        alert(response.data.message)
+                    }
+
+                }catch(error){
+                    alert(error)
+                }finally{
+                  this.loading=false
+                }
+            }
+            ,
+           
+          
+          
+            nextPage() {
+              if (this.currentPage < this.totalPages) {
+                this.currentPage++;
+              }
+            },
+            previousPage() {
+              if (this.currentPage > 1) {
+                this.currentPage--;
+              }
+            }
+            
+        }
+    })
+
+    app.mount('#dashboard')
+
+</script>
+
+</body>
+</html>
