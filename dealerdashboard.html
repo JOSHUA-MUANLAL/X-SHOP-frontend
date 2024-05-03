@@ -374,6 +374,12 @@
     <div class="spinner"></div>
     </div>
 
+    <div v-if="open" class="modal-overlay">
+      <div class="modal">
+          <h3>Product Added</h3>
+      </div>
+  </div>
+
 
 </div>
 <script>
@@ -445,7 +451,8 @@
                 product_type:'',
                 product_price:'',
                 product_quantity:'',
-                loading:true
+                loading:true,
+                open:false
                 
 
             }
@@ -517,7 +524,7 @@
                         headers: { Authorization: token },
                     });
 
-                    alert('Images uploaded successfully');
+                    this.open=true;
                    
                     this.selectedImages = []; // Clear the array after upload
                 } catch (error) {
@@ -525,6 +532,7 @@
                     alert('Error uploading images.');
                 }finally{
                   this.loading=false
+                  this.open=false
                 }
             },
             async getdealerdata(){

@@ -282,6 +282,12 @@ div.myorders{
   </style>
 </head>
 <body id="dashboard">
+  <div v-if="open" class="modal-overlay">
+    <div class="modal">
+        <h3>Product Ordered</h3>
+        <button class="btn btn-danger" @click="open=!open">Ok</button>
+    </div>
+</div>
   <div v-if="loading" class="spinner-overlay">
     <div class="spinner"></div>
     </div>
@@ -298,6 +304,7 @@ div.myorders{
   <p>MY Orders<div class='myorders' v-for="x in userdetail.orders">
     <h4> Item Name : {{x.item_name}}  </h4>
     <h4>Product_id : {{x.product_id}}</h4>
+    <h4>Product_id : {{x.order_id}}</h4>
     <h4>Item Type : {{x.item_type}}</h4>
     <h4>Item price : {{x.item_price}} </h4>
 
@@ -313,7 +320,7 @@ div.myorders{
       <span class="items">Price:{{x.product_price}}</span>
       <br>
       <button class="btn removefromwishlist" @click="removefromwishlist(x.product_id)" >remove From wishlist</button>
-      <button class="btn addtowishlist" v-if="checkcart(x.product_id)" @click="addtocart(x)">Add to Cart</button>
+      <button class="btn addtowishlist" v-if="checkcart(x.product_id)" @click="addtocart(x.product_id)">Add to Cart</button>
         <button class="btn removefromwishlist" v-else @click="removefromcart(x.product_id)" >remove From Cart</button>
      
     </div> 
@@ -395,9 +402,9 @@ div.myorders{
           </table>
         </div><br>
         
-        <br><button class="btn addtowishlist" v-if="checkwishlist(item.product_id)" @click="addtowishlist(item)">Add to Wishlist</button>
+        <br><button class="btn addtowishlist" v-if="checkwishlist(item.product_id)" @click="addtowishlist(item.product_id)">Add to Wishlist</button>
         <button class="btn removefromwishlist" v-else @click="removefromwishlist(item.product_id)" >remove From wishlist</button> &nbsp
-        <button class="btn addtowishlist" v-if="checkcart(item.product_id)" @click="addtocart(item)">Add to Cart</button>
+        <button class="btn addtowishlist" v-if="checkcart(item.product_id)" @click="addtocart(item.product_id)">Add to Cart</button>
         <button class="btn removefromwishlist" v-else @click="removefromcart(item.product_id)" >remove From Cart</button>
 
     </div>
@@ -471,7 +478,8 @@ div.myorders{
                 currentPage: 1,
                 pageSize: 5,
                 imageUrl:'download.jpg',
-                loading:true
+                loading:true,
+                open:false
 
             }
         },
@@ -521,7 +529,7 @@ div.myorders{
               }
 
             }catch(error){
-              alert("error in getall product")
+              alert("error in get all product")
               alert(error)
             }finally{
               this.loading=false
@@ -540,7 +548,7 @@ div.myorders{
               })
 
               if(response.status===200){
-                alert("Removed")
+                
                 this.getuserdata()
 
               }
@@ -563,7 +571,7 @@ div.myorders{
               })
 
               if(response.status===200){
-                console.log("removed")
+                
                 this.getuserdata()
 
               }
@@ -611,7 +619,7 @@ div.myorders{
                 })
 
                 if(response.status===200){
-                  alert("order success")
+                  this.open=true
                   this.order_selected=[];
                   this.totalordercost=0;
                   this.getuserdata()
@@ -622,6 +630,7 @@ div.myorders{
                 alert(error)
               }finally{
                 this.loading=false
+                
               }
 
 
@@ -700,7 +709,7 @@ div.myorders{
             async addtocart(i){
               try{
                 let response=await axios.post('http://localhost:8080/addtocart',{
-                  item:i
+                  id:i
                 },{
                   headers:{
                     Authorization: token 
