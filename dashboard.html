@@ -652,6 +652,9 @@ div.myorders{
 
                         if(response.status===200){
                           this.product_data=response.data
+                          if(!response.data){
+                            this.getallproduct()
+                          }
                             
                         }else{
                             alert('Failed to Get Data')
@@ -719,7 +722,7 @@ div.myorders{
                 })
     
                 if(response.status===200){
-                  alert("Added to cart")
+                  
                   this.getuserdata()
                 }
     

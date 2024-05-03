@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>X Shop Welcome Page</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-black text-white flex items-center justify-center h-screen">
+    <div class="text-center">
+        <h1 class="text-4xl mb-6 font-bold">Welcome to X Shop</h1>
+        
+        <div class="flex flex-col items-center space-y-4">
+            <!-- Login Button -->
+            <button class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded-lg">
+              <a href="userlogin.html"> Login</a> 
+            </button>
+            
+            <!-- Admin Login Button -->
+            <button class="bg-gray-500 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded-lg">
+               <a href="dealerlogin.html">Admin Login</a> 
+            </button>
+            
+            <!-- Register Button -->
+            <button class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded-lg">
+               <a href="register.html">Register</a> 
+            </button>
+        </div>
+    </div>
+    
+    <!-- Delivery Boy Button (bottom-right corner) -->
+    <div class="fixed bottom-5 right-5">
+        <button class="bg-gray-500 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded-lg">
+            <a href='delivery.html'> Delivery Boy</a>
+        </button>
+    </div>
+</body>
+</html>
