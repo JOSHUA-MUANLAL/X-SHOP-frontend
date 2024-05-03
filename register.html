@@ -248,14 +248,15 @@
                         this.loading=true;
                         
                         window.location.href = 'dealerlogin.html';
-                    }else if(response.status===201){
-                        this.emailmsg=response.data.message
+                    }else {
+                        alert(response.data.message)
                     }
 
                    }
                 }catch(error){alert(error)
 
                 }finally{
+                    
                     this.loading=false
                 }
             },async sentotp(){
@@ -276,8 +277,8 @@
                             this.loading=false
     
                             
-                        }else if(response.status===202){
-                           alert("OTP incorrect")
+                        }else {
+                           alert(response.data.message)
                         }
                     }else{
                         alert("Please enter all field")}
@@ -292,7 +293,7 @@
                     this.otp=''
                     this.cotp=''
                     this.submitForm()
-                }else{
+                }else{alert("otp mismatch, enter again")
                     this.otpmsg='OTP Missmatch'
 
                 }
