@@ -222,7 +222,7 @@
                     }else if(response.status===200){
                         this.loading=true;
                         
-                        window.location.href = 'login.html';
+                        window.location.href = 'userlogin.html';
                     }else if(response.status===201){
                         this.emailmsg=response.data.message
                     }
@@ -276,8 +276,8 @@
                             this.loading=false
     
                             
-                        }else{
-                           alert(response.data.message)
+                        }else if(response.status===202){
+                           alert("OTP incorrect")
                         }
                     }else{
                         alert("Please enter all field")}
