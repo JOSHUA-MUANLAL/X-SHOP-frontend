@@ -450,7 +450,7 @@ div.myorders{
   const token = sessionStorage.getItem('token')
     const isRefreshing = performance.navigation.type === 1;
     if (!token ) {
-      window.location.href = 'login.html';
+      window.location.href = 'adminlogin.html';
     }
 
 
@@ -612,6 +612,8 @@ div.myorders{
 
                 if(response.status===200){
                   alert("order success")
+                  this.order_selected=[];
+                  this.totalordercost=0;
                   this.getuserdata()
 
                 }

@@ -110,24 +110,30 @@
       width:100%;
     }
    .modal-overlay {
-            position: fixed;
+            position:fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(0, 0, 0, 0.5);
+            background-color: white;
             z-index: 9999;
             display: flex;
             justify-content: center;
             align-items: center;
+            
+
+            
         }
 
-        .modal {
+        .modall{
             background-color: white;
             padding: 20px;
+            color:#111;
             border-radius: 10px;
             width: 300px;
             text-align: center;
+            
+            
         }
 
         .coursebox{
@@ -137,6 +143,7 @@
             margin-bottom: 20px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             background-color: #111;
+            overflow-y:auto;
             
         }
 
@@ -144,15 +151,15 @@
             border: 1px solid #ccc;
             border-radius: 8px;
 
-           
          
             display: none;
             padding: 10px;
             
             max-width: 50vw;
-            height:260px;
+            height:320px;
             margin-top: 5px;
             overflow-y:auto;
+            text-align: left;
         }
 
         .carousel-container {
@@ -203,7 +210,7 @@
         width: 100%;
         height: 100%;
         background-color: rgba(255, 255, 255, 0.7); /* Translucent white */
-        z-index: 9999;
+        z-index: 99;
         display: flex;
         justify-content: center;
         align-items: center;
@@ -229,50 +236,44 @@
   </style>
 </head>
 <body id="dashboard">
-  <div v-if="loading" class="spinner-overlay">
-    <div class="spinner"></div>
-    </div>
+  
       
-    <div v-if="click" class="modal-overlay text-black text-xs"  >
-        <div class="modal">
-            <h3>Enter Product detail</h3><span class="text-red-600"></span>
-            Product Name:<br>
-            <input type="text" v-model="productname" placeholder="Enter Name" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600">
-            <br>Type:<br>
-            <input type="text" v-model="product_type" placeholder="Enter Type" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600">
-            <br>
-            Price:<br>
-            <input type="number" v-model="product_price" placeholder="Enter Price" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600">
-            <br>
-            Quantity:<br>
-            <input type="number" v-model="product_quantity" placeholder="Enter Quantity" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600">
-<br><br>
-            <input type="file" multiple @change="onFileChange"><br>
+    <div v-if="click" class="modal-overlay text-black text-xs" >
+        <div v-if="click" class="modall">
+          <h3>Enter Product detail</h3><span class="text-red-600"></span>
+          Product Name:<br>
+          <input type="text" v-model="productname" placeholder="Enter Name" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600">
+          <br>Type:<br>
+          <input type="text" v-model="product_type" placeholder="Enter Type" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600">
+          <br>
+          Price:<br>
+          <input type="number" v-model="product_price" placeholder="Enter Price" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600">
+          <br>
+          Quantity:<br>
+          <input type="number" v-model="product_quantity" placeholder="Enter Quantity" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600">
+          <br><br>
+          <input type="file" multiple @change="onFileChange"><br>
 
-            <!-- List of Selected Images -->
-            <h2>Selected Images</h2>
-            <div v-if="selectedImages.length === 0">No images selected</div>
-            <div v-for="(file, index) in selectedImages" :key="index">
-                {{ file.name }} <!-- Display file names to confirm selection -->
-            </div>
-    
-            <!-- Button to Upload All Images -->
-            
-
-            
-
-
-
-            <button @click="addproduct"
-                class="bg-blue-500 text-white font-bold py-2 px-4 rounded-lg mt-4 hover:bg-blue-600 focus:outline-none focus:bg-blue-600">
-                Submit
-            </button>
-            <button @click="clearimages"
-                class="bg-red-500 text-white font-bold py-2 px-4 rounded-lg mt-4 hover:bg-red-800 focus:outline-none focus:bg-blue-600">
-                Exit
-            </button>
+          <!-- List of Selected Images -->
+          <h2>Selected Images</h2>
+          <div v-if="selectedImages.length === 0">No images selected</div>
+          <div v-for="(file, index) in selectedImages" :key="index">
+              {{ file.name }} <!-- Display file names to confirm selection -->
+          </div>
+  
+          <!-- Button to Upload All Images -->
+          
+          <button @click="addproduct"
+              class="bg-blue-500 text-white font-bold py-2 px-4 rounded-lg mt-4 hover:bg-blue-600 focus:outline-none focus:bg-blue-600">
+              Submit
+          </button>
+          <button @click="clearimages"
+              class="bg-red-500 text-white font-bold py-2 px-4 rounded-lg mt-4 hover:bg-red-800 focus:outline-none focus:bg-blue-600">
+              Exit
+          </button>
             
         </div>
+       
     </div>
 
 <div class="navbar">
@@ -337,15 +338,21 @@
 
           
       <div class="course-panel">
-         <div class="coursebox" v-for="order in item.orders" :key="customer_email">
-             <p><strong>Customer email: {{order.customer_email}}</strong> </p>
-             <p><strong>Name: {{order.customer_name}}</strong> </p>
-             <p><strong>Quantity: {{order.quantity_ordered}}</strong> </p>
-             <p><strong>Address: {{order.address}}</strong> </p>
-             <p><strong>Pin: {{order.pin_code}}</strong> </p>
+         <div class="coursebox" v-for="order in item.orders" :key="customer_email" >
+          <div :class="{'red-background': !order.order_status}">
+            <p class="text-blue-700">Customer email: <strong class="text-white">{{order.customer_email}}</strong> </p>
+             <p class="text-blue-700">Name:<strong class="text-white"> {{order.customer_name}}</strong> </p>
+             <p class="text-blue-700">Quantity<strong class="text-white">: {{order.quantity_ordered}}</strong> </p>
+             <p class="text-blue-700">Address:<strong class="text-white"> {{order.address}}</strong> </p>
+             <p class="text-blue-700">Pin:<strong class="text-white"> {{order.pin_code}}</strong> </p>
+             <p class="text-blue-700">Order Status :<strong class="text-white"> {{order.order_status}}</strong></p>
+             <p class="text-blue-700">Delivery Otp :<strong class="text-white"> {{order.delivery_otp}}</strong></p>
+          </div>
+             
          </div>
      </div>
-  </div>
+
+
   </center>
      
             
@@ -363,7 +370,9 @@
 
 
 
-
+<div v-if="loading" class="spinner-overlay">
+    <div class="spinner"></div>
+    </div>
 
 
 </div>
@@ -418,7 +427,7 @@
     const app=Vue.createApp({
         data(){
             return{
-                click:false,
+                click:true,
                 product_data:[],
                 userdetail:[],
                 count:[{
@@ -484,7 +493,7 @@
             },
             async addproduct() {
                 if(this.product_price=='' && this.productname=='' && this.product_price=='' && this.product_quantity=='' && this.product_type==''){
-                    alert('Please enter product filed')
+                    alert('Please enter all the field')
                     return 
                 }
                 this.loading=true
