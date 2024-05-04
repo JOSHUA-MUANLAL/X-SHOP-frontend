@@ -263,7 +263,7 @@
                 }
             },async sentotp(){
                 try{
-                    alert("here")
+                    
                     if(this.email!='' && this.newpassword!='' && this.name!='' && this.phone!='' && this.dob!='' && this.role!='' ){
                         this.loading=true;
                         let response=await axios.post('https://x-shop-server.onrender.com/sentotp',{
