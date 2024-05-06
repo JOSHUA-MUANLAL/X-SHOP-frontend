@@ -362,7 +362,19 @@ div.myorders{
 
 
 <!--For Product search-->
-<div class="product-search"><center> <input class="search_bar" type="text" v-model="product_name_entered"><button class="btn search" @click="searchproduct()">Search</button> 
+<div class="product-search"><center> <div class="searchb" style="display: flex; align-items: center; width: 200px;">
+  <input 
+    class="search_bar" 
+    type="text" 
+    v-model="product_name_entered" 
+    style="flex-grow: 1; border: 1px solid #ccc; padding: 8px; border-radius: 4px 0 0 4px;" 
+  >
+  <button 
+    class="btn search glyphicon glyphicon-search" 
+    @click="searchproduct()" 
+    style="border: 1px solid #ccc; padding: 8px; border-radius: 0 4px 4px 0; background-color: #f0f0f0;" 
+  ></button>
+</div>
     <div class="product-list"  v-for="item in paginatedData">
 
       <center><div class="carousel-container">
@@ -643,7 +655,7 @@ div.myorders{
                 try{
                   this.loading=true
                      if(this.product_name_entered){
-                      alert("searching product")
+                     
                         let response = await axios.post('https://x-shop-server.onrender.com/getproductdetail',{
                             search_product:this.product_name_entered
                         },{

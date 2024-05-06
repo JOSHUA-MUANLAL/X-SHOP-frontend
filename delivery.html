@@ -220,7 +220,7 @@
             <p>Area Pin:  <span class="text-blue-700">{{orders.pin_code}}</span></p>
             <p>Order Date: <span class="text-blue-700">{{orders.order_date}}</span> </p>
             
-            <p v-if="!orders.order_status"> <input type="number" v-model="otp" name="otp"><button class="otp " @click="checkotp(orders.order_id,orders.customer_email,product.product_id)">Send</button></p>
+            <p v-if="!orders.order_status"> <input type="number" class="text-black" v-model="otp" name="otp"><button class="otp " @click="checkotp(orders.order_id,orders.customer_email,product.product_id)">Send</button></p>
             <p v-else>Delivered</p><hr>
            
 
