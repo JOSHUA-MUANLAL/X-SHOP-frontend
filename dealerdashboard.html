@@ -229,6 +229,18 @@
         0% { transform: rotate(0deg); }
         100% { transform: rotate(360deg); }
       }
+
+      .dropdown-btn{
+        border-radius: 5px;
+        padding:5px;
+      }
+
+      div.handle-product{
+        border-radius:5px;
+        padding:5px;
+        background-color: #333;
+        margin:5px;
+      }
       
     
 
@@ -289,8 +301,13 @@
 </div>
 
 <div id="wishlist-panel" class="slide-panel">
-    Wishlist
+    All Orders
   <div class="wishlist">
+    <div class="handle-product" v-for="product in product_data">
+      <h4>Product Name: {{product.item_name}}</h4>
+      <p>Price: {{product.item_price}} </p>
+      <button class="btn btn-danger" @click="removeproduct(product.product_id)">Remove</button>
+    </div>
   
   </div>
   <br>
@@ -474,6 +491,28 @@
             this.getdealerdata()
         },
         methods:{
+            async removeproduct(pid){
+              try{
+                let response=await axios.post('/removeproduct',{
+                  product_id:pid
+                },{
+                  headers:{
+                    Authorization:token
+                  }
+                })
+
+                if(response.status===200){
+                  this.productdetail()
+
+                }else{
+                  alert(response.data.message)
+                }
+
+              }catch(error){
+                alert(response.data.message)
+              }
+            }
+          ,
             nextImage(item) {
                 if (item.currentImage < item.images.length - 1) {
                     item.currentImage++;
