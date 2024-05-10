@@ -14,241 +14,166 @@
   <style>
 
     @font-face {
-        font-family: 'MyCustomFont';
-        src: url('rog.ttf') format('truetype'); /* Define the source */
-      }
-    body {
-      margin: 0;
-      padding: 0;
-      font-family: 'MyCustomFont', sans-serif;
-      background-color: #111;
-      color: #eee;
-    }
-    .navbar {
-      display: flex;
-      justify-content: space-around;
-      padding: 10px;
-      background-color: #333;
-      
-    }
-    .navbar button {
-      background-color: #333;
-      color: #eee;
-      border: none;
-      padding: 10px 20px;
-      cursor: pointer;
-      transition: background-color 0.3s ease;
-    }
-    .navbar button:hover {
-      background-color: #777;
-    }
-    .slide-panel {
-      position: fixed;
-      top: 0;
-      bottom: 0;
-      width: 60%;
-      background-color: #222;
-      z-index: 1000;
-      overflow: auto;
-      transition: transform 0.5s ease;
-      padding: 20px;
-    }
-    #profile-panel {
-      left: 0;
-      transform: translateX(-100%);
-    }
-    #wishlist-panel,
-    #message-panel {
-      right: 0;
-      transform: translateX(100%);
-    }
-    .overlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: rgba(0, 0, 0, 0.5);
-      z-index: 999;
-      display: none;
-    }
-    .cart,.wishlist{
-        height:80%;
-        overflow-y: scroll; /* Enable scrolling */
-        -webkit-overflow-scrolling: touch; /* Smooth scrolling */
-        scrollbar-width: none;
-        border-radius: 10px;
-
-    }
-
-   .cart::-webkit-scrollbar {
-        display: none; /* Hide scrollbar in WebKit browsers */
-      }
-
-    .wishlist::-webkit-scrollbar {
-        display: none; /* Hide scrollbar in WebKit browsers */
-      }
-
-
-    .cart-box,.wishlist-box{
-        background-color:rgb(95, 84, 84);
-        border-radius: 10px;
-        padding:10px;
-        margin-top: 10px;
-        
-
-    }
-
-    .wishlist::-webkit-scrollbar-track {
-        background:red; /* Light gray track */
-      }
-
-    span.items{
-        font-size: 2vh;
-
-
-      }
-
-    button{
-        background-color: black;
-    }
-
-    button.order{
-        background-color: white;
-        color:#111;
-        margin-top: 20px;
-    }
-
-    div.product-search{
-        padding:10px;
-    }
-
-    input.search_bar{
-        color:black;
-        width:60%;
-        height:30px;
-        border-color:#eee;
-        border-radius: 10px 0px 0px 10px;
-        padding:9px
-    }
-    button.search{
-        background-color: white;
-        height:30px;
-        color:black;
-        border-radius: 0px 10px 10px 0px;
-    }
-
-    div.product-list{
-        border-radius:10px;
-        padding:8px;
-        background-color: #333;
-        margin: 10px;
-        width:70%;
-    }
-    button.addtowishlist{
-      background-color: crimson;
-      font-size: 1.8vmin;
-      height:4vh;
-    }
-    button.removefromwishlist{
-  
-      font-size: 1.8vmin;
-      height:4vh;
-    }
-
-    div.image_product{
-      height:30vh;
-      width:100%;
-    }
-
-    .course-panel {
-      border: 1px solid #ccc;
-      border-radius: 8px;
-     transition: 2s;
-   
-      display: none;
-      padding: 10px;
-      background-color: #f9f9f9;
-      max-width: 50vw;
-      height:260px;
-      margin-top: 5px;
-      overflow-y:auto;
-  }
-
-  .carousel-container {
-    position: relative;
-    overflow: hidden;
-    width: 20vw; /* 20% of the viewport width */
-    height: 20vw; /* Keeping it proportional */
+    font-family: 'MyCustomFont';
+    src: url('rog.ttf') format('truetype');
 }
 
-.carousel {
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'MyCustomFont', sans-serif;
+    background: #f6f5f7; /* Light background color */
+    color: #333; /* Darker text color */
+}
+
+.navbar {
     display: flex;
-    transition: transform 0.3s ease; /* Smoother transition */
+    justify-content: space-around;
+    padding: 10px;
+    background: #FF4B2B; /* Vibrant background color */
 }
 
-.carousel img {
-    width: 20vw; /* Keep the image width consistent */
-    height: 20vw; /* Adjust height to maintain proportions */
-    object-fit: cover; /* Ensure images fit within the defined area */
+.navbar button {
+    background-color: transparent; /* Transparent background for buttons */
+    color: #FFFFFF; /* White text color */
+    border: 1px solid #FF4B2B; /* Red border */
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.navbar button:hover {
+    background-color: #FF416C; /* Hover color */
+    color: #FFFFFF; /* White text on hover */
+}
+
+.slide-panel {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    width: 60%;
+    background: #FF416C; /* Red-to-pink gradient */
+    z-index: 1000;
+    overflow: auto;
+    transition: transform 0.5s ease;
+    padding: 20px;
+}
+
+#profile-panel {
+    left: 0;
+    transform: translateX(-100%);
+}
+
+#wishlist-panel,
+#message-panel {
+    right: 0;
+    transform: translateX(100%);
+}
+
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5); /* Semi-transparent black */
+    z-index: 999;
+    display: none;
+}
+
+.cart, .wishlist {
+    height: 80%;
+    overflow-y: scroll; /* Enable scrolling */
+    -webkit-overflow-scrolling: touch; /* Smooth scrolling */
+    scrollbar-width: none; /* Hide scrollbars */
+    border-radius: 10px;
+    /* Light background color */
+}
+
+.cart-box, .wishlist-box {
+    background-color: #FF4B2B; /* Vibrant box background color */
+    border-radius: 10px;
+    padding: 10px;
+    margin-top: 10px;
+}
+
+span.items {
+    font-size: 2vh;
+}
+
+button {
+    background: transparent; /* Transparent background for buttons */
+    color: black; /* Vibrant text color */
+}
+
+button.order {
+    background-color: #FF4B2B; /* Vibrant background color for order button */
+    color: #FFF; /* White text */
+    margin-top: 20px;
+}
+
+div.product-search {
+    padding: 10px;
+}
+
+input.search_bar {
+    color: #333; /* Dark text color */
+    width: 60%;
+    height: 30px;
+    border-color: #FF4B2B; /* Vibrant border color */
+    border-radius: 10px 0px 0px 10px;
+    padding: 9px;
+}
+
+button.search {
+    background-color: #FF4B2B; /* Vibrant button background */
+    height: 30px;
+    color: #FFF; /* White text */
+    border-radius: 0px 10px 10px 0px;
+}
+
+div.product-list {
+    border-radius: 10px;
+    padding: 8px;
+    background-color: #f2f2f2; /* Light background */
+    margin: 10px;
+    width: 70%;
+}
+
+button.addtowishlist {
+    background-color: #FF4B2B; /* Vibrant red */
+    font-size: 1.8vmin;
+    height: 4vh;
+}
+
+button.removefromwishlist {
+    background-color: transparent; /* Transparent background */
+    border: 1px solid #FF4B2B; /* Red border */
+    color: #FF4B2B; /* Vibrant red text */
+    font-size: 1.8vmin;
+    height: 4vh;
+}
+
+div.image_product {
+    height: 30vh;
+    width: 100%;
 }
 
 .carousel-arrow {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    background: rgba(0, 0, 0, 0.6); /* Semi-transparent background for the arrows */
-    color: white;
-    border: none;
-    padding: 10px;
-    cursor: pointer;
-    z-index: 10;
+    background: rgba(255, 75, 43, 0.6); /* Semi-transparent red */
+    color: white; /* White arrow */
 }
-
-.carousel-arrow.left {
-    left: 5px; /* Position to the left */
-}
-
-.carousel-arrow.right {
-    right: 5px; /* Position to the right */
-}
-
 
 .course-panel {
-  border: 1px solid #ccc;
-  border-radius: 8px;
- 
-
-  display: none;
-  padding: 10px;
-  
-  max-width: 50vw;
-  height:260px;
-  margin-top: 5px;
-  overflow-y:auto;
-}
-
-table {
-  color:black;
-  border-collapse: collapse; /* Ensures no spacing between cells */
-  width: 100%; /* Makes the table take the full width of the container */
-}
-th, td {
-   /* Adds a border around each cell */
-  padding: 8px; /* Adds some space around the content */
-  text-align: left; /* Aligns text to the left */
-}
-th {
-  background-color: #f2f2f2; /* Light gray background for header cells */
-}
-
-div.myorders{
-  background-color: whitesmoke;
-  border-radius: 8px;
-  color:black;
-  overflow-y: auto;
-  padding:5px;
-  margin:5px;
+    border: 1px solid #FF4B2B; /* Vibrant border color */
+    border-radius: 8px;
+    padding: 10px;
+    background-color: #FFFFFF; /* Light background */
+    max-width: 50vw;
+    height: 260px;
+    margin-top: 5px;
+    overflow-y: auto;
+    display:none;
 }
 
 .spinner-overlay {
@@ -266,7 +191,7 @@ div.myorders{
 
 .spinner {
   border: 4px solid #f3f3f3; /* Light grey */
-  border-top: 4px solid #3498db; /* Blue */
+  border-top: 4px solid #FF4B2B; /* Blue */
   border-radius: 50%;
   width: 50px;
   height: 50px;
@@ -278,8 +203,17 @@ div.myorders{
   100% { transform: rotate(360deg); }
 }
 
-.dropdown-btn{
-  border-radius:5px;
+.dropdown-btn {
+    border-radius: 5px;
+    border: 1px solid #FF4B2B; /* Red border */
+    background-color: transparent; /* Transparent background */
+}
+
+.myorders{
+  background-color:#e38e7f ;
+  padding:5px;
+  border-radius: 5px;
+  margin:5px;
 }
 
 
