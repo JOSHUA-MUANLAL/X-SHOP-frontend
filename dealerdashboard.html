@@ -493,7 +493,8 @@
         methods:{
             async removeproduct(pid){
               try{
-                let response=await axios.post('/removeproduct',{
+                this.loading=true
+                let response=await axios.post('https://x-shop-server.onrender.com/removeproduct',{
                   product_id:pid
                 },{
                   headers:{
@@ -510,6 +511,8 @@
 
               }catch(error){
                 alert(response.data.message)
+              }finally{
+                this.loading=false
               }
             }
           ,
