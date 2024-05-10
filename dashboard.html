@@ -13,15 +13,12 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
   <style>
 
-    @font-face {
-    font-family: 'MyCustomFont';
-    src: url('rog.ttf') format('truetype');
-}
+    @import url('https://fonts.googleapis.com/css?family=Montserrat:400,800');
 
 body {
     margin: 0;
     padding: 0;
-    font-family: 'MyCustomFont', sans-serif;
+    font-family: 'Montserrat', sans-serif;
     background: #f6f5f7; /* Light background color */
     color: #333; /* Darker text color */
 }
@@ -101,8 +98,8 @@ span.items {
     font-size: 2vh;
 }
 
-button {
-    background: transparent; /* Transparent background for buttons */
+button.btn {
+    background: #FF4B2B; /* Transparent background for buttons */
     color: black; /* Vibrant text color */
 }
 
@@ -147,9 +144,9 @@ button.addtowishlist {
 }
 
 button.removefromwishlist {
-    background-color: transparent; /* Transparent background */
+     /* Transparent background */
     border: 1px solid #FF4B2B; /* Red border */
-    color: #FF4B2B; /* Vibrant red text */
+    color: white; /* Vibrant red text */
     font-size: 1.8vmin;
     height: 4vh;
 }
@@ -209,7 +206,7 @@ div.image_product {
     background-color: transparent; /* Transparent background */
 }
 
-.myorders{
+.myorders,.cart-box,.wishlist-box{
   background-color:#e38e7f ;
   padding:5px;
   border-radius: 5px;
