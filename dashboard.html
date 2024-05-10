@@ -160,6 +160,9 @@ div.image_product {
     background: rgba(255, 75, 43, 0.6); /* Semi-transparent red */
     color: white; /* White arrow */
 }
+.carousel-container{
+  border-radius: 5px;
+}
 
 .course-panel {
     border: 1px solid #FF4B2B; /* Vibrant border color */
@@ -257,9 +260,9 @@ div.image_product {
       <span class="items">Type:{{x.product_type}}</span><br>
       <span class="items">Price:{{x.product_price}}</span>
       <br>
-      <button class="btn removefromwishlist" @click="removefromwishlist(x.product_id)" >remove From wishlist</button>
+      <button class="btn removefromwishlist" @click="removefromwishlist(x.product_id)" >Remove From Wishlist</button>
       <button class="btn addtowishlist" v-if="checkcart(x.product_id)" @click="addtocart(x.product_id)">Add to Cart</button>
-        <button class="btn removefromwishlist" v-else @click="removefromcart(x.product_id)" >remove From Cart</button>
+        <button class="btn removefromwishlist" v-else @click="removefromcart(x.product_id)" >Remove From Cart</button>
      
     </div> 
   </div>
@@ -282,7 +285,7 @@ div.image_product {
           <span class="items">Price:{{item.item_price}}</span>
           <br>
           <input type="checkbox" :value="item" name="item" v-model="order_selected" @change="calculatecost">
-          <button class="btn removefromwishlist" @click="removefromcart(item.product_id)" >remove From Cart</button>
+          <button class="btn removefromwishlist" @click="removefromcart(item.product_id)" >Remove From Cart</button>
 
       </div>
     </div></form><br>
@@ -314,7 +317,7 @@ div.image_product {
 
       <center><div class="carousel-container">
         <div class="carousel" :style="{ transform: `translateX(-${item.currentImage * 100}%)` }">
-            <img v-for="(image, index) in item.images" :src="`data:${image.mimeType};base64,${image.imageData}`" :alt="'Product Image ' + index" :key="index">
+            <img class="rounded-lg" v-for="(image, index) in item.images" :src="`data:${image.mimeType};base64,${image.imageData}`" :alt="'Product Image ' + index" :key="index">
         </div>
         <button class="carousel-arrow left" @click="prevImage(item)">&lt;</button>
         <button class="carousel-arrow right" @click="nextImage(item)">&gt;</button>
@@ -326,7 +329,7 @@ div.image_product {
         <h2>Product name :  {{item.item_name}}</h2>
         <span class="description">Price :  {{item.item_price}}</span><br>
 
-        <button class="dropdown-btn" onclick="toggleDropdown(this)">description</button>&nbsp;
+        <button class="dropdown-btn" onclick="toggleDropdown(this)">Description</button>&nbsp;
 
 
 
@@ -353,9 +356,9 @@ div.image_product {
         </div><br>
         
         <br><button class="btn addtowishlist" v-if="checkwishlist(item.product_id)" @click="addtowishlist(item.product_id)">Add to Wishlist</button>
-        <button class="btn removefromwishlist" v-else @click="removefromwishlist(item.product_id)" >remove From wishlist</button> &nbsp
+        <button class="btn removefromwishlist" v-else @click="removefromwishlist(item.product_id)" >Remove From Wishlist</button> &nbsp
         <button class="btn addtowishlist" v-if="checkcart(item.product_id)" @click="addtocart(item.product_id)">Add to Cart</button>
-        <button class="btn removefromwishlist" v-else @click="removefromcart(item.product_id)" >remove From Cart</button>
+        <button class="btn removefromwishlist" v-else @click="removefromcart(item.product_id)" >Remove From Cart</button>
 
     </div>
   </center>
