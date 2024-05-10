@@ -8,6 +8,7 @@
 
     <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="https://unpkg.com/vue@3.2.19/dist/vue.global.prod.js"></script>t>
     <style>
         @import url('https://fonts.googleapis.com/css?family=Montserrat:400,800');
 
@@ -209,14 +210,65 @@
         .container.right-panel-active .overlay-right {
             transform: translateX(20%);
         }
+
+
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 9999;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            width: 300px;
+            text-align: center;
+        }
+
+        .spinner-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(255, 255, 255, 0.7); /* Translucent white */
+            z-index: 9999;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+          }
+          
+          .spinner {
+            border: 4px solid #f3f3f3; /* Light grey */
+            border-top: 4px solid #FF4B2B; /* Blue */
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+          }
+          @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+          }
     </style>
 </head>
 <body>
 
 <div class="container" id="container">
     <div id="app">
+        <div v-if="loading" class="spinner-overlay">
+            <div class="spinner"></div>
+            </div>
         <div class="form-container sign-up-container">
-            <form @submit.prevent="userRegister">
+            <form @submit.prevent="users">
                 <h1>User Registration</h1>
                 <input type="text" v-model="userName" placeholder="Name" required />
                 <input type="text" v-model="useraddress" placeholder="Address" required />
@@ -231,7 +283,7 @@
         </div>
 
         <div class="form-container dealer-sign-up-container">
-            <form @submit.prevent="dealerRegister">
+            <form @submit.prevent="dealers">
                 <h1>Dealer Registration</h1>
                 <input type="text" v-model="dealerName" placeholder="Name" required />
                 <input type="text" v-model="dealeraddress" placeholder="Address" required />
@@ -244,7 +296,16 @@
                 <input type="password" v-model="dealerPassword" placeholder="Password" required />
                 <button type="submit">Register</button>
             </form>
+        </div> <div v-if="otpVisible" class="modal-overlay">
+        <div class="modal">
+            <h3>Enter OTP Sent to your Registered Email</h3><span class="text-red-600">{{msg}}</span>
+            <input type="text" v-model="cotp" placeholder="Enter OTP" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600">
+            <button @click="checkotp"
+                class="bg-blue-500 text-white font-bold py-2 px-4 rounded-lg mt-4 hover:bg-blue-600 focus:outline-none focus:bg-blue-600">
+                Submit
+            </button>
         </div>
+    </div>
     </div>
 
     <div class="overlay-container">
@@ -261,6 +322,7 @@
             </div>
         </div>
     </div>
+   
 </div>
 
 <script>
@@ -294,13 +356,27 @@
                 dealerphone:'',
                 dealerpin:'',
                 dealercompany:'',
-                dealerdob:''
+                dealerdob:'',
+                otpVisible:false,
+                cotp:'',
+                otp:'',msg:'',
+                loading:false
             };
         },
 
         methods: {
+            users(){
+                this.role="user"
+                this.sentotp(this.userEmail)
+            },
+            dealers(){
+                this.role='dealer'
+                this.sentotp(this.dealerEmail)
+            },
             async userRegister() {
+                this.loading=true
                 try {
+                   
                     const response = await axios.post('https://x-shop-server.onrender.com/userregister', {
                         name: this.userName,
                         dob: this.userdob,
@@ -317,6 +393,7 @@
                     } else {
                         alert(response.data.message);
                     }
+                   
                 } catch (error) {
                     alert(error.message);
                 } finally {
@@ -324,12 +401,14 @@
                     this.useraddress = '';
                     this.userEmail = '';
                     this.userPassword = '';
+                    this.loading=false;
                     
                 }
             },
 
-            async dealerRegister() {
+            async dealerRegister() {this.loading=true
                 try {
+                 
                     const response = await axios.post('https://x-shop-server.onrender.com/dealerregister', {
                         name: this.dealerName,
                         dob: this.dealerdob,
@@ -347,6 +426,7 @@
                     } else {
                         alert(response.data.message);
                     }
+                 
                 } catch (error) {
                     alert(error.message);
                 } finally {
@@ -354,8 +434,64 @@
                     this.dealeraddress = '';
                     this.dealerEmail = '';
                     this.dealerPassword = '';
+                    this.msg='',
+                    this.loading=false
+                    
                 }
             },
+            checkotp(){this.loading=false
+                this.otpVisible=true
+              try{
+                  
+                if(this.cotp==this.otp){
+                    this.otp=''
+                    this.cotp=''
+                    if(this.role=='user'){
+                        this.userRegister()
+                    }else if(this.role=='dealer'){
+                        this.dealerRegister()
+                    }
+                }else{
+                    this.msg='OTP mismatch'
+
+                }
+
+              }catch(error){
+
+              }finally{
+                this.role=''
+              }
+                
+
+            },async sentotp(email){
+                try{
+                    this.loading=true;
+                    let response=await axios.post('https://x-shop-server.onrender.com/sentotp',{
+                        email:email
+                        
+
+                    })
+
+                    if(response.status===200){
+                        this.otpVisible=true
+                        this.otp=response.data.otp
+                       
+                        this.loading=false
+                        
+
+                        
+                    }else {
+                        
+                       alert(response.data.message)
+                       
+                    }
+
+                }catch(error){
+                    alert(error)
+                }finally{
+                    this.loading=false;
+                }
+            }
         },
     });
 
