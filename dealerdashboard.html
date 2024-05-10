@@ -290,7 +290,7 @@
 
 <div class="navbar">
   <button onclick="openPanel('profile')" class="glyphicon glyphicon-user"></button>
-  <button onclick="openPanel('wishlist')">Orders</button>
+  <button onclick="openPanel('wishlist')">Manage Products</button>
   
 </div>
 
@@ -301,7 +301,7 @@
 </div>
 
 <div id="wishlist-panel" class="slide-panel">
-    All Orders
+    Products
   <div class="wishlist">
     <div class="handle-product" v-for="product in product_data">
       <h4>Product Name: {{product.item_name}}</h4>
