@@ -389,7 +389,7 @@
 
                     if (response.status === 201) {
                         alert("User registration successful!");
-                        // Redirect or perform other actions here
+                        window.location.href = 'loginpage.html';
                     } else {
                         alert(response.data.message);
                     }
@@ -420,8 +420,9 @@
                         company:this.dealercompany
                     });
 
-                    if (response.status === 201) {
+                    if (response.status === 200) {
                         alert("Dealer registration successful!");
+                        window.location.href = 'loginpage.html';
                         // Redirect or perform other actions here
                     } else {
                         alert(response.data.message);

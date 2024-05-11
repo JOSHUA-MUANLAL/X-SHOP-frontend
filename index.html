@@ -5,30 +5,96 @@
     <title>X Shop Welcome Page</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css?family=Montserrat:400,800');
+
+        body {
+            background: linear-gradient(135deg, #FFA500, #FF6347);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            font-family: 'Montserrat', sans-serif;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        .bg-red-500 {
+            background-color: #FF4B2B; /* Changed to match the theme color */
+        }
+
+        .bg-red-600 {
+            background-color: #FF416C; /* Changed to match the theme color */
+        }
+
+        .hover\:bg-red-500:hover {
+            background-color: #FF4B2B; /* Changed to match the theme color */
+        }
+
+        .hover\:bg-red-600:hover {
+            background-color: #FF416C; /* Changed to match the theme color */
+        }
+
+        .text-white {
+            color: #fff;
+        }
+
+        .font-bold {
+            font-weight: bold;
+        }
+
+        .py-2 {
+            padding-top: 0.5rem;
+            padding-bottom: 0.5rem;
+        }
+
+        .px-4 {
+            padding-left: 1rem;
+            padding-right: 1rem;
+        }
+
+        .rounded-lg {
+            border-radius: 10px;
+        }
+
+        .fixed {
+            position: fixed;
+        }
+
+        .bottom-5 {
+            bottom: 1.25rem;
+        }
+
+        .right-5 {
+            right: 1.25rem;
+        }
+    </style>
 </head>
-<body class="bg-black text-white flex items-center justify-center h-screen">
+<body class=" text-white flex items-center justify-center h-screen">
     <div class="text-center">
         <h1 class="text-4xl mb-6 font-bold">Welcome to X Shop</h1>
         
         <div class="flex flex-col items-center space-y-4">
             <!-- Login Button -->
-            <button class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded-lg">
-              <a href="loginpage.html"> Login</a> 
+            <button class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded-lg">
+                <a href="loginpage.html">Login</a>
             </button>
-            
-       
-            
+
             <!-- Register Button -->
-            <button class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded-lg">
-               <a href="register.html">Register</a> 
+            <button class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded-lg">
+                <a href="register.html">Register</a>
             </button>
         </div>
     </div>
-    
+
     <!-- Delivery Boy Button (bottom-right corner) -->
     <div class="fixed bottom-5 right-5">
         <button class="bg-gray-500 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded-lg">
-            <a href='delivery.html'> Delivery Boy</a>
+            <a href='delivery.html'>Delivery Boy</a>
         </button>
     </div>
 </body>

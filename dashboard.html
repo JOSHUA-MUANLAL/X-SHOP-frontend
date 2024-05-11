@@ -215,6 +215,16 @@ div.image_product {
   border-radius: 5px;
   margin:5px;
 }
+#logout{
+  position: absolute;
+    bottom: 10px; /* Adjust this value as needed */
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+td{
+  text-align: center;
+}
 
 
   </style>
@@ -337,19 +347,19 @@ div.image_product {
         <div class="course-panel">
           <table>
             <tr>
-              <th>Product ID</th>
+              <th>Product ID: </th>
               <td>{{item.product_id}}</td>
             </tr>
             <tr>
-              <th>Product Dealer Name</th>
+              <th>Product Dealer Name: </th>
               <td>{{item.dealerName}}</td>
             </tr>
             <tr>
-              <th>Orders</th>
+              <th>Orders: </th>
               <td>{{item.orders.length}}</td>
             </tr>
             <tr>
-              <th>Company </th>
+              <th>Company: </th>
               <td>{{item.company}}</td>
             </tr>
           </table>
