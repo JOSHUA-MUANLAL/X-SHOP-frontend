@@ -100,7 +100,8 @@ span.items {
 
 button.btn {
     background: #FF4B2B; /* Transparent background for buttons */
-    color: black; /* Vibrant text color */
+    color: black; 
+    margin:4px;/* Vibrant text color */
 }
 
 button.order {
@@ -139,7 +140,7 @@ div.product-list {
 
 button.addtowishlist {
     background-color: #FF4B2B; /* Vibrant red */
-    font-size: 1.8vmin;
+    font-size: 2vmin;
     height: 4vh;
 }
 
@@ -147,7 +148,7 @@ button.removefromwishlist {
      /* Transparent background */
     border: 1px solid #FF4B2B; /* Red border */
     color: white; /* Vibrant red text */
-    font-size: 1.8vmin;
+    font-size: 2vmin;
     height: 4vh;
 }
 
@@ -159,6 +160,10 @@ div.image_product {
 .carousel-arrow {
     background: rgba(255, 75, 43, 0.6); /* Semi-transparent red */
     color: white; /* White arrow */
+}
+.carousel img {
+  width: 100%; /* Make the images fill the container */
+  height: auto; /* Maintain aspect ratio */
 }
 .carousel-container{
   border-radius: 5px;
@@ -214,10 +219,20 @@ div.image_product {
   padding:5px;
   border-radius: 5px;
   margin:5px;
+  font-size:2vmin;
+ 
+}
+
+.orders{
+  height: 50%;
+  overflow-y: scroll; /* Enable scrolling */
+  -webkit-overflow-scrolling: touch; /* Smooth scrolling */
+  scrollbar-width: none; /* Hide scrollbars */
+  border-radius: 10px;
 }
 #logout{
   position: absolute;
-    bottom: 10px; /* Adjust this value as needed */
+    bottom: 50px; /* Adjust this value as needed */
     left: 50%;
     transform: translateX(-50%);
 }
@@ -249,16 +264,18 @@ td{
 <div id="profile-panel" class="slide-panel">
   <h2>{{userdetail.userName}}</h2>
   <h3> {{userdetail.userEmail}} </h3>
-  <p>MY Orders<div class='myorders' v-for="x in userdetail.orders">
-    <h4> Item Name : {{x.item_name}}  </h4>
-    <h4>Product_id : {{x.product_id}}</h4>
-    <h4>Product_id : {{x.order_id}}</h4>
-    <h4>Item Type : {{x.item_type}}</h4>
-    <h4>Item price : {{x.item_price}} </h4>
-    <h4>Order Date : {{x.order_date}} </h4>
-    <h4>Delivery OTP : {{x.delivery_otp}} </h4>
-
-  </div> 
+  <p>MY Orders<div class="orders">
+    <div class='myorders' v-for="x in userdetail.orders">
+      <h4> Item Name : {{x.item_name}}  </h4>
+      <h4>Product_id : {{x.product_id}}</h4>
+      <h4>Product_id : {{x.order_id}}</h4>
+      <h4>Item Type : {{x.item_type}}</h4>
+      <h4>Item price : {{x.item_price}} </h4>
+      <h4>Order Date : {{x.order_date}} </h4>
+      <h4>Delivery OTP : {{x.delivery_otp}} </h4>
+  
+    </div> 
+  </div>
   <button id="logout" class="btn btn-primary absoulte bottom-4 px-4" @click="logout">LOGOUT</button></p>
 </div>
 
@@ -420,7 +437,7 @@ td{
   const token = sessionStorage.getItem('token')
     const isRefreshing = performance.navigation.type === 1;
     if (!token ) {
-      window.location.href = 'adminlogin.html';
+      window.location.href = 'loginpage.html';
     }
 
 

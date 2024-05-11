@@ -258,6 +258,15 @@
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
           }
+          a {
+            color: white;
+            font-size: 14px;
+            text-decoration: none;
+            margin: 5px 0;
+        }
+        span.message{
+            color:red;
+        }
     </style>
 </head>
 <body>
@@ -278,6 +287,7 @@
                 <input type="email" v-model="userEmail" placeholder="Email" required />
                 
                 <input type="password" v-model="userPassword" placeholder="Password" required />
+               <span class="message"> {{message}}</span>
                 <button type="submit">Register</button>
             </form>
         </div>
@@ -294,6 +304,7 @@
 
                 <input type="email" v-model="dealerEmail" placeholder="Email" required />
                 <input type="password" v-model="dealerPassword" placeholder="Password" required />
+                <span class="message"> {{message}}</span>
                 <button type="submit">Register</button>
             </form>
         </div> <div v-if="otpVisible" class="modal-overlay">
@@ -314,11 +325,14 @@
                 <h1>Welcome!</h1>
                 <p>For users, click the "User" button to register as a user.</p>
                 <button class="ghost" id="signIn">User</button>
+                <a href="loginpage.html">Already Have an Account?</a>
+
             </div>
             <div class="overlay-panel overlay-right">
                 <h1>Welcome!</h1>
                 <p>For dealers, click the "Dealer" button to register as a dealer.</p>
                 <button class="ghost" id="signUp">Dealer</button>
+                <a href="loginpage.html">Already Have an Account?</a>
             </div>
         </div>
     </div>
@@ -360,7 +374,8 @@
                 otpVisible:false,
                 cotp:'',
                 otp:'',msg:'',
-                loading:false
+                loading:false,
+                message:''
             };
         },
 
@@ -391,7 +406,7 @@
                         alert("User registration successful!");
                         window.location.href = 'loginpage.html';
                     } else {
-                        alert(response.data.message);
+                        this.message=response.data.message
                     }
                    
                 } catch (error) {
@@ -425,7 +440,7 @@
                         window.location.href = 'loginpage.html';
                         // Redirect or perform other actions here
                     } else {
-                        alert(response.data.message);
+                        this.message=response.data.message
                     }
                  
                 } catch (error) {
@@ -484,7 +499,7 @@
                         
                     }else {
                         
-                       alert(response.data.message)
+                        this.message=response.data.message
                        
                     }
 

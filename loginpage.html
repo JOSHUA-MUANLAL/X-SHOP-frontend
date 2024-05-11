@@ -9,7 +9,8 @@
     <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="https://unpkg.com/vue@3.2.19/dist/vue.global.prod.js"></script>
-    <style>
+   
+	<style>
         
 @import url('https://fonts.googleapis.com/css?family=Montserrat:400,800');
 
@@ -289,11 +290,26 @@ footer a {
 	0% { transform: rotate(0deg); }
 	100% { transform: rotate(360deg); }
   }
+  .back-button {
+	position: absolute;
+	top: 20px; /* Adjust this value to position the button vertically */
+	left: 20px; /* Adjust this value to position the button horizontally */
+	background-color: #FF4B2B;
+	color: #FFFFFF;
+	padding: 10px 15px;
+	border-radius: 5px;
+	text-decoration: none;
+	z-index: 9999;
+}
+span.message{
+	color:red;
+}
     </style>
 </head>
 <body >
-   
+
 <div class="container" id="container" >
+	  
 	<div id="app">
 	<div class="form-container sign-up-container">
 		<div v-if="loading" class="spinner-overlay">
@@ -308,7 +324,9 @@ footer a {
 			<input type="email" v-model="dealeremail" placeholder="Email" />
 			<input type="password" v-model="dealerpassword" placeholder="Password" />
 			<a href="forgotpassword.html">Forgot your password?</a>
-			<button type="submit">Login</button>
+			
+			<span class="message">{{message}}</span>
+			<button type="submit">Login</button><a href="register.html">Register</a>
 		</form>
 	</div>
 	<div class="form-container sign-in-container">
@@ -319,7 +337,8 @@ footer a {
 			<input type="email" v-model="useremail" placeholder="Email" />
 			<input type="password" v-model="userpassword" placeholder="Password" />
 			<a href="forgotpassword.html">Forgot your password?</a>
-			<button type="submit" >Login</button>
+			<span class="message">{{message}}</span>
+			<button type="submit" >Login</button><a href="register.html">Register</a>
 		</form>
 	</div></div>
 	<div class="overlay-container">
@@ -351,6 +370,9 @@ signUpButton.addEventListener('click', () => {
 signInButton.addEventListener('click', () => {
 	container.classList.remove("right-panel-active");
 });
+function goBack() {
+	window.history.back();
+}
 
 let app=Vue.createApp({
     data(){
@@ -359,7 +381,7 @@ let app=Vue.createApp({
             userpassword:'',
             dealeremail:'',
             dealerpassword:'',
-			loading:false
+			loading:false,message:''
 
         }
     },
@@ -379,8 +401,9 @@ let app=Vue.createApp({
                        
                         window.location.href = 'dashboard.html';
                     }else{
+						this.message=response.data.message;
                        
-                        alert(response.data.message)
+                        
                         
                     }
 
@@ -408,7 +431,7 @@ let app=Vue.createApp({
                     window.location.href = 'dealerdashboard.html';
                 }else{
                    
-                    alert(error)
+                    this.message=response.data.message;
                     
                 }
                 
