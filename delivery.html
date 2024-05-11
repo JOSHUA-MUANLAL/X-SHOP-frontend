@@ -2,356 +2,299 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title> Dealer Dashboard</title>
+  <title>Dealer Dashboard</title>
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
   <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
   <script src="https://unpkg.com/vue@3.2.19/dist/vue.global.prod.js"></script>
-
   <script src="https://cdn.jsdelivr.net/npm/nodemailer@6"></script>
   <script src="https://cdn.jsdelivr.net/npm/smtp-connection@4"></script>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
     <style>
+      @import url('https://fonts.googleapis.com/css?family=Montserrat:400,800');
 
-    @font-face {
-        font-family: 'MyCustomFont';
-        src: url('rog.ttf') format('truetype'); /* Define the source */
-      }
-    body {
-      margin: 0;
-      padding: 0;
-      font-family: 'MyCustomFont', sans-serif;
-      background-color: #111;
-      color: #eee;
-    }
-    .navbar {
-      display: flex;
-      justify-content: space-around;
-      padding: 10px;
-      background-color: #333;
-    }
-    .navbar button {
-      background-color: #333;
-      color: #eee;
-      border: none;
-      padding: 10px 20px;
-      cursor: pointer;
-      transition: background-color 0.3s ease;
-    }
-    .navbar button:hover {
-      background-color: #777;
-    }
-    .slide-panel {
-      position: fixed;
-      top: 0;
-      bottom: 0;
-      width: 60%;
-      background-color: #222;
-      z-index: 1000;
-      overflow: auto;
-      transition: transform 0.5s ease;
-      padding: 20px;
-    }
-    #profile-panel {
-      left: 0;
-      transform: translateX(-100%);
-    }
-    #wishlist-panel,
-    #message-panel {
-      right: 0;
-      transform: translateX(100%);
-    }
-    .overlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: rgba(0, 0, 0, 0.5);
-      z-index: 999;
-      display: none;
-    }
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Montserrat', sans-serif;
+            background-color: #f6f5f7; /* Updated background color */
+            color: #333; /* Updated text color */
+        }
 
+        .navbar {
+            display: flex;
+            justify-content: space-around;
+            padding: 10px;
+            background-color: #FF4B2B; /* Updated navbar background color */
+            color: #fff; /* Updated navbar text color */
+        }
 
-    span.items{
-        font-size: 2vh;
+        .navbar button {
+            background-color: #FF4B2B; /* Updated button background color */
+            color: #fff; /* Updated button text color */
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
 
+        .navbar button:hover {
+            background-color: #FF416C; /* Updated button hover background color */
+        }
 
-      }
+        .slide-panel {
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            width: 60%;
+            background-color: #fff; /* Updated panel background color */
+            z-index: 1000;
+            overflow: auto;
+            transition: transform 0.5s ease;
+            padding: 20px;
+          
+        }
+        #profile-panel {
+          left: 0;
+          transform: translateX(-100%);
+        }
 
-    button{
-        background-color: black;
-    }
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+            display: none;
+        }
 
-  
-        
+        span.items {
+            font-size: 2vh;
+        }
 
-        .product-list{
+        button {
+            background-color: black;
+        }
+
+        .product-list {
             border: 1px solid #ccc;
             border-radius: 8px;
             padding: 20px;
-            margin:20px;
+            margin: 20px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             background-color: #111;
-            overflow-y:auto;
+            overflow-y: auto;
             text-align: left;
-            
         }
 
         .course-panel {
             border: 1px solid #ccc;
             border-radius: 8px;
-
-         
             display: none;
             padding: 10px;
-            
             max-width: 50vw;
-            height:320px;
+            height: 320px;
             margin-top: 5px;
-            overflow-y:auto;
+            overflow-y: auto;
             text-align: left;
         }
 
-        
+        .spinner-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(255, 255, 255, 0.7); /* Translucent white */
+            z-index: 99;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
 
-      .spinner-overlay {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-color: rgba(255, 255, 255, 0.7); /* Translucent white */
-        z-index: 99;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-      }
-  
-      .spinner {
-        border: 4px solid #f3f3f3; /* Light grey */
-        border-top: 4px solid #3498db; /* Blue */
-        border-radius: 50%;
-        width: 50px;
-        height: 50px;
-        animation: spin 1s linear infinite;
-      }
-  
-      @keyframes spin {
-        0% { transform: rotate(0deg); }
-        100% { transform: rotate(360deg); }
-      }
+        .spinner {
+            border: 4px solid #f3f3f3; /* Light grey */
+            border-top: 4px solid #3498db; /* Blue */
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+        }
 
-      .otp{
-        background-color:white;
-        color:black;
-        margin:4px;
-        padding:2px;
-        border-radius: 5px;
-      }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
 
-      .order{
-        padding:5px;
-      }
-      .modal-overlay {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-color: rgba(0, 0, 0, 0.5);
-        z-index: 9999;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
+        .otp {
+            background-color: white;
+            color: black;
+            margin: 4px;
+            padding: 2px;
+            border-radius: 5px;
+        }
 
-    .modal {
-        background-color: white;
-        padding: 20px;
-        border-radius: 10px;
-        width: 300px;
-        text-align: center;
-    }
-      
-      
-    
+        .order {
+            padding: 5px;
+        }
 
-    
-  </style>
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 9999;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            width: 300px;
+            text-align: center;
+        }
+    </style>
 </head>
 <body id="dashboard">
-
     <div v-if="open" class="modal-overlay">
         <div class="modal">
             <h3>Order Delivered</h3>
         </div>
     </div>
-  
-      
 
-<div class="navbar">
-  <button onclick="openPanel('profile')" class="glyphicon glyphicon-user"></button>
-  
-  
-</div>
-
-<div id="profile-panel" class="slide-panel">
-  <h2></h2>
-  <p></p>
-</div>
-
-
-
-<div id="overlay" class="overlay" onclick="closePanels()" ></div>
-
-<center>
-<div class="orders" v-if="deliverydata.length>0">
-    <h1>Delivery Details</h1>
-    <div class="product-list" v-for="product in deliverydata" :key="product_id">
-        
-        <div class="order-list" v-for="orders in product.orders" :key="order_id">
-            <h4>Order Id: {{orders.order_id}}</h4>
-            <p>Customer Id: <span class="text-blue-700">{{orders.customer_email}}</span></p>
-            <p>Customer Name:  <span class="text-blue-700">{{orders.customer_name}}</span></p>
-            <p>Order Address: <span class="text-blue-700"> {{orders.address}}</span> </p>
-            <p>Area Pin:  <span class="text-blue-700">{{orders.pin_code}}</span></p>
-            <p>Order Date: <span class="text-blue-700">{{orders.order_date}}</span> </p>
-            
-            <p v-if="!orders.order_status"> <input type="number" class="text-black" v-model="otp" name="otp"><button class="otp " @click="checkotp(orders.order_id,orders.customer_email,product.product_id)">Send</button></p>
-            <p v-else>Delivered</p><hr>
-           
-
-        </div> </div>
-</div><div v-else>
-    No Delivery at this Point
-</div></center>
-
-
-
-
-
-
-
-<div v-if="loading" class="spinner-overlay">
-    <div class="spinner"></div>
+    <div class="navbar">
+        <button onclick="openPanel('profile')" class="glyphicon glyphicon-user"></button>
     </div>
 
+    <div id="profile-panel" class="slide-panel">
+        <h2></h2>
+        <p></p>
+    </div>
 
-</div>
-<script>
-    function toggleDropdown(btn) {
-        var panel = btn.nextElementSibling;
-        if (panel.style.display === "block") {
-            panel.style.display = "none";
-        } else {
-            panel.style.display = "block";
-        }
-    }
+    <div id="overlay" class="overlay" onclick="closePanels()"></div>
 
+    <center>
+        <div class="orders" v-if="deliverydata.length>0">
+            <h1>Delivery Details</h1>
+            <div class="product-list" v-for="product in deliverydata" :key="product_id">
+                <div class="order-list" v-for="orders in product.orders" :key="order_id">
+                    <h4>Order Id: {{orders.order_id}}</h4>
+                    <p>Customer Id: <span class="text-blue-700">{{orders.customer_email}}</span></p>
+                    <p>Customer Name:  <span class="text-blue-700">{{orders.customer_name}}</span></p>
+                    <p>Order Address: <span class="text-blue-700"> {{orders.address}}</span> </p>
+                    <p>Area Pin:  <span class="text-blue-700">{{orders.pin_code}}</span></p>
+                    <p>Order Date: <span class="text-blue-700">{{orders.order_date}}</span> </p>
+                    <p v-if="!orders.order_status"> <input type="number" class="text-black" v-model="otp" name="otp"><button class="otp " @click="checkotp(orders.order_id,orders.customer_email,product.product_id)">Send</button></p>
+                    <p v-else>Delivered</p><hr>
+                </div>
+            </div>
+        </div>
+        <div v-else>
+            No Delivery at this Point
+        </div>
+    </center>
 
+    <div v-if="loading" class="spinner-overlay">
+        <div class="spinner"></div>
+    </div>
 
-  function openPanel(panelId) {
-    closePanels(); // Close all panels before opening the new one
-
-    document.getElementById('overlay').style.display = 'block';
-
-    const panel = document.getElementById(panelId + '-panel');
-    if (panelId === 'profile') {
-      panel.style.transform = 'translateX(0)';
-    } else {
-      panel.style.transform = 'translateX(0)';
-    }
-  }
-
-  function closePanels() {
-    document.getElementById('overlay').style.display = 'none';
-
-    const panels = document.querySelectorAll('.slide-panel');
-    panels.forEach(panel => {
-      if (panel.id === 'profile-panel') {
-        panel.style.transform = 'translateX(-100%)';
-      } else {
-        panel.style.transform = 'translateX(100%)';
-      }
-    });
-  }
-
-
- 
- 
-
-
-
-    const app=Vue.createApp({
-        data(){
-            return{
-               deliverydata:[],
-               otp:'',
-               open:false,
-               loading:false
-
+    <script>
+        function toggleDropdown(btn) {
+            var panel = btn.nextElementSibling;
+            if (panel.style.display === "block") {
+                panel.style.display = "none";
+            } else {
+                panel.style.display = "block";
             }
-        },
-        computed: {
-           
-            
-          },
-        created(){
-            this.getdeliverydata()
-        },
-        methods:{
-            async getdeliverydata(){
-                try{
-                    this.loading=true;
+        }
 
-                    let response=await axios.get('https://x-shop-server.onrender.com/getdeliverydata')
+        function openPanel(panelId) {
+            closePanels(); // Close all panels before opening the new one
+            document.getElementById('overlay').style.display = 'block';
+            const panel = document.getElementById(panelId + '-panel');
+            if (panelId === 'profile') {
+                panel.style.transform = 'translateX(0)';
+            } else {
+                panel.style.transform = 'translateX(0)';
+            }
+        }
 
-                    if(response.status===200){
-                        this.deliverydata=response.data
-                    }else{
-                        alert(response.data.message)
-                    }
+        function closePanels() {
+            document.getElementById('overlay').style.display = 'none';
+            const panels = document.querySelectorAll('.slide-panel');
+            panels.forEach(panel => {
+                if (panel.id === 'profile-panel') {
+                    panel.style.transform = 'translateX(-100%)';
+                } else {
+                    panel.style.transform = 'translateX(100%)';
+                }
+            });
+        }
 
-                }catch(error){
-                    alert(error)
-                }finally{
-                    this.loading=false;
+        const app = Vue.createApp({
+            data() {
+                return {
+                    deliverydata: [],
+                    otp: '',
+                    open: false,
+                    loading: false
                 }
             },
-            async checkotp(id,useremail,product_id){
-                try{
-                    this.loading=true;
-                    let response=await axios.post('https://x-shop-server.onrender.com/checkdeliveryotp',{
-                        otp:this.otp,
-                        order_id:id,
-                        email:useremail,
-                        product_id:product_id
-                    })
-                    if(response.status===200){
-                        this.getdeliverydata()
-                        this.open=true
-
+            computed: {},
+            created() {
+                this.getdeliverydata()
+            },
+            methods: {
+                async getdeliverydata() {
+                    try {
+                        this.loading = true;
+                        let response = await axios.get('https://x-shop-server.onrender.com/getdeliverydata')
+                        if (response.status === 200) {
+                            this.deliverydata = response.data
+                        } else {
+                            alert(response.data.message)
+                        }
+                    } catch (error) {
+                        alert(error)
+                    } finally {
+                        this.loading = false;
                     }
-
-                }catch(error){
-                    alert(error)
-                }finally{
-                    this.otp=''
-                    this.open=false;
-                    this.loading=false
+                },
+                async checkotp(id, useremail, product_id) {
+                    try {
+                        this.loading = true;
+                        let response = await axios.post('https://x-shop-server.onrender.com/checkdeliveryotp', {
+                            otp: this.otp,
+                            order_id: id,
+                            email: useremail,
+                            product_id: product_id
+                        })
+                        if (response.status === 200) {
+                            this.getdeliverydata()
+                            this.open = true
+                        }
+                    } catch (error) {
+                        alert(error)
+                    } finally {
+                        this.otp = ''
+                        this.open = false;
+                        this.loading = false
+                    }
                 }
-
             }
-            
-        }
-    })
+        })
 
-    app.mount('#dashboard')
-
-</script>
+        app.mount('#dashboard')
+    </script>
 
 </body>
 </html>
