@@ -650,8 +650,10 @@ td{
                         if(response.status===200){
                           this.loading = false;
                           this.product_data=response.data
-                          if(!response.data){
+                          if(!response.data){this.loading = false;
                             this.getallproduct()
+                          }else{
+                            this.loading = false;
                           }
                             
                         }else{this.loading = false;
