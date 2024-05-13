@@ -249,7 +249,7 @@
   <div id="wishlist-panel" class="slide-panel">
     <h2>Products</h2>
     <div class="wishlist">
-      <div class="handle-product rounded-lg bg-red-400 p-1.5" v-for="product in product_data">
+      <div class="handle-product rounded-lg bg-red-400 p-1.5 m-2" v-for="product in product_data">
         <h4>Product Name: {{product.item_name}}</h4>
         <p>Price: {{product.item_price}} </p>
         <button class="btn btn-danger" @click="removeproduct(product.product_id)">Remove</button>
