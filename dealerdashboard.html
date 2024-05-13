@@ -409,16 +409,14 @@
               }
             );
 
-            if (response.status === 200) {
+            if (response.status === 200) {this.loading = false;
               this.productdetail();
-            } else {
+            } else {this.loading = false
               alert(response.data.message);
             }
-          } catch (error) {
+          } catch (error) {this.loading = false
             alert(response.data.message);
-          } finally {
-            this.loading = false;
-          }
+          } 
         },
         nextImage(item) {
           if (item.currentImage < item.images.length - 1) {
@@ -438,6 +436,7 @@
           this.selectedImages = Array.from(event.target.files);
         },
         async addproduct() {
+          this.loading = true;
           if (!this.productname || !this.product_type || !this.product_price || !this.product_quantity) {
             alert('Please enter all fields');
             return;
@@ -464,16 +463,16 @@
               }
             );
 
-            if (response.status === 200) {
+            if (response.status === 200) {this.loading = false;
               this.open = true;
               this.clearimages();
-            } else {
+            } else {this.loading = false;
               alert('Error adding product');
             }
-          } catch (error) {
+          } catch (error) {this.loading = false;
             console.error('Error uploading images:', error);
           } finally {
-            this.loading = false;
+            
             this.productdetail();
           }
         },
@@ -497,16 +496,14 @@
               }
             );
 
-            if (response.status === 200) {
+            if (response.status === 200) {this.loading = false;
               this.userdetail = response.data;
               this.productdetail();
-            } else {
+            } else {this.loading = false;
               alert('Failed to fetch dealer data');
             }
-          } catch (error) {
+          } catch (error) {this.loading = false;
             console.error(error);
-          } finally {
-            this.loading = false;
           }
         },
         async productdetail() {

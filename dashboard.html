@@ -528,17 +528,15 @@ td{
                 }
               })
 
-              if(response.status===200){
+              if(response.status===200){this.loading = false;
                 this.product_data=response.data
-              }else{
+              }else{this.loading = false;
                 alert("Unable to fetch all product")
               }
 
-            }catch(error){
+            }catch(error){this.loading = false;
               alert("error in get all product")
               alert(error)
-            }finally{
-              this.loading=false
             }
           }
           ,
@@ -554,16 +552,14 @@ td{
               })
 
               if(response.status===200){
-                
+                this.loading = false;
                 this.getuserdata()
 
               }
 
-            }catch(error){
+            }catch(error){this.loading = false;
               alert(error)
               alert(response.data.message)
-            }finally{
-              this.loading=false
             }
           },
           async removefromwishlist(i){
@@ -578,15 +574,13 @@ td{
               })
 
               if(response.status===200){
-                
+                this.loading = false;
                 this.getuserdata()
 
               }
 
-            }catch(error){
+            }catch(error){this.loading = false;
               alert(error)
-            }finally{
-              this.loading=false
             }
           },
             async getuserdata(){
@@ -598,14 +592,12 @@ td{
                         }
                     })
 
-                    if(response.status===200){
+                    if(response.status===200){this.loading = false;
                         this.userdetail=response.data
                     }
-                }catch(error){
+                }catch(error){this.loading = false;
                     alert(error)
                 
-            }finally{
-              this.loading=false
             }
             },
             calculatecost(){
@@ -626,18 +618,18 @@ td{
                 })
 
                 if(response.status===200){
+                  this.loading = false;
                   this.open=true
                   this.order_selected=[];
                   this.totalordercost=0;
                   this.getuserdata()
 
+                }else{
+                  this.loading = false;
                 }
 
-              }catch(error){
+              }catch(error){this.loading = false;
                 alert(error)
-              }finally{
-                this.loading=false
-                
               }
 
 
@@ -656,20 +648,20 @@ td{
                         })
 
                         if(response.status===200){
+                          this.loading = false;
                           this.product_data=response.data
                           if(!response.data){
                             this.getallproduct()
                           }
                             
-                        }else{
+                        }else{this.loading = false;
                             alert('Failed to Get Data')
                         }
                     }
 
                 }catch(error){
+                  this.loading = false;
                     alert(error)
-                }finally{
-                  this.loading=false
                 }
 
             },
@@ -695,6 +687,7 @@ td{
             },
             async addtowishlist(i){
               try{
+                this.loading = true;
 
                 let response=await axios.post('https://x-shop-server.onrender.com/addtowishlist',{
                   item:i
@@ -706,10 +699,13 @@ td{
 
 
                 if(response.status===200){
+                  this.loading = false;
                   this.getuserdata()
+                }else{
+                  this.loading = false;
                 }
 
-              }catch(error){
+              }catch(error){this.loading = false;
                 alert(error)
               }
               
@@ -717,7 +713,7 @@ td{
 
             },
             async addtocart(i){
-              try{
+              try{this.loading = True;
                 let response=await axios.post('https://x-shop-server.onrender.com/addtocart',{
                   id:i
                 },{
@@ -727,11 +723,12 @@ td{
                 })
     
                 if(response.status===200){
+                  this.loading = false;
                   
                   this.getuserdata()
-                }
+                }else{this.loading = false;}
     
-              }catch(error){
+              }catch(error){this.loading = false;
                 alert(error)
               }
             },
