@@ -309,9 +309,9 @@ td{
     Wishlist
   <div class="wishlist">
     <div class="wishlist-box" v-for="x in userdetail.wishlist">
-      <h2>Product:{{x.product_name}}</h2>
-      <span class="items">Type:{{x.product_type}}</span><br>
-      <span class="items">Price:{{x.product_price}}</span>
+      <h2>Product:{{x.item_name}}</h2>
+      <span class="items">Type:{{x.item_type}}</span><br>
+      <span class="items">Price:{{x.item_price}}</span>
       <br>
       <button class="btn removefromwishlist" @click="removefromwishlist(x.product_id)" >Remove From Wishlist</button>
       <button class="btn addtowishlist" v-if="checkcart(x.product_id)" @click="addtocart(x.product_id)">Add to Cart</button>
@@ -333,7 +333,7 @@ td{
         
         <form @submit.prevent="order">
       <div class="cart-box" v-for="item in userdetail.cart">
-          <h2>Product:{{item.product_name}}</h2>
+          <h2>Product:{{item.item_name}}</h2>
           <span class="items">Type:{{item.item_type}}</span><br>
           <span class="items">Price:{{item.item_price}}</span>
           <br>
@@ -719,7 +719,7 @@ td{
 
             },
             async addtocart(i){
-              try{this.loading = True;
+              try{this.loading = true;
                 let response=await axios.post('https://x-shop-server.onrender.com/addtocart',{
                   id:i
                 },{
