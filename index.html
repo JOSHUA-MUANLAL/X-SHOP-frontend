@@ -72,6 +72,36 @@
         .right-5 {
             right: 1.25rem;
         }
+
+        .install-prompt {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background-color: #f3f3f3;
+            padding: 10px;
+            text-align: center;
+            box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+        }
+    
+        .install-prompt button {
+            margin: 5px;
+            padding: 10px 20px;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+    
+        .install-prompt button.install {
+            background-color: #4CAF50;
+            color: white;
+        }
+    
+        .install-prompt button.continue {
+            background-color: #ddd;
+            color: black;
+        }
     </style>
 </head>
 <body class=" text-white flex items-center justify-center h-screen">
@@ -90,6 +120,7 @@
             </button>
         </div>
     </div>
+   
 
     <!-- Delivery Boy Button (bottom-right corner) -->
     <div class="fixed bottom-20 right-5">
@@ -97,7 +128,39 @@
             <a href='delivery.html'>Delivery Boy</a>
         </button>
     </div>
+    <div class="install-prompt" id="installPrompt" style="display: none;">
+        <p>Do you want to install our app?</p>
+        <button class="install" onclick="installApp()">Install App</button>
+        <button class="continue" onclick="closePrompt()">Continue</button>
+    </div>
     <script>
+        function isMobile() {
+            return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+        }
+
+      
+        
+        // Function to display the install prompt
+        function showInstallPrompt() {
+            var installPrompt = document.getElementById("installPrompt");
+            if (isMobile()) {
+                installPrompt.style.display = "block";
+            }
+        }
+        
+        // Function to close the install prompt
+        function closePrompt() {
+            var installPrompt = document.getElementById("installPrompt");
+            installPrompt.style.display = "none";
+        }
+        
+        // Function to simulate app installation (you can replace it with your actual app installation logic)
+        function installApp() {
+            window.location.href = "base.apk";
+        }
+        
+        // Show the install prompt when the page loads
+        window.onload = showInstallPrompt;
        
     </script>
 </body>
