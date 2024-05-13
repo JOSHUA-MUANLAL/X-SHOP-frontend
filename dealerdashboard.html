@@ -301,6 +301,8 @@
       <input class="text-black" type="number" v-model="product_price" placeholder="Enter Price"><br>
       Quantity:<br>
       <input type="number" class="text-black" v-model="product_quantity" placeholder="Enter Quantity"><br>
+      Description & Specification: <br>
+      <textarea class="rounded-lg text-black p-1.5" v-model="description" rows="4" cols="30"></textarea>
       <br><input type="file" multiple @change="onFileChange"><br>
       <button class="btn btn-primary" @click="addproduct">Submit</button>
       <button class="btn btn-danger" @click="clearimages">Exit</button>
@@ -378,6 +380,7 @@
           product_quantity: '',
           loading: true,
           open: false,
+          description:''
         };
       },
       computed: {
@@ -447,6 +450,7 @@
           formData.append('product_price', this.product_price);
           formData.append('product_type', this.product_type);
           formData.append('product_quantity', this.product_quantity);
+          formData.append('product_description', this.description);
 
           this.selectedImages.forEach((file) => {
             formData.append('images', file);
