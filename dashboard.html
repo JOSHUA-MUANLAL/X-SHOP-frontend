@@ -158,15 +158,34 @@ div.image_product {
 }
 
 .carousel-arrow {
-    background: rgba(255, 75, 43, 0.6); /* Semi-transparent red */
-    color: white; /* White arrow */
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(0, 0, 0, 0.6);
+  color: white;
+  border: none;
+  padding: 10px;
+  cursor: pointer;
+  z-index: 10;
 }
+.carousel-container {
+  width: 40%; /* Adjust to take 40%-50% of the screen width */
+  height: auto; /* Allow height to adjust based on image aspect ratio */
+  overflow: hidden; /* Ensure only one image is visible at a time */
+  position: relative;
+  margin: auto; /* Center the carousel horizontally */
+}
+
+.carousel {
+  display: flex;
+  transition: transform 0.5s ease; /* Smooth transition between images */
+}
+
 .carousel img {
-  width: 40%; /* Make the images fill the container */
+  flex: 0 0 auto; /* Ensure images don't shrink or grow */
+  width: 100%; /* Make the image fill the container */
+  max-width: 100%; /* Ensure images don't exceed container width */
   height: auto; /* Maintain aspect ratio */
-}
-.carousel-container{
-  border-radius: 5px;
 }
 
 .course-panel {
@@ -179,6 +198,13 @@ div.image_product {
     margin-top: 5px;
     overflow-y: auto;
     display:none;
+}
+.carousel-arrow.left {
+  left: 5px;
+}
+
+.carousel-arrow.right {
+  right: 5px;
 }
 
 .spinner-overlay {
@@ -346,8 +372,8 @@ td{
         <div class="carousel" :style="{ transform: `translateX(-${item.currentImage * 100}%)` }">
             <img class="rounded-lg" v-for="(image, index) in item.images" :src="`data:${image.mimeType};base64,${image.imageData}`" :alt="'Product Image ' + index" :key="index">
         </div>
-        <button class="carousel-arrow left" @click="prevImage(item)">&lt;</button>
-        <button class="carousel-arrow right" @click="nextImage(item)">&gt;</button>
+        <button class="carousel-arrow left" @click="nextImage(item)">&lt;</button>
+        <button class="carousel-arrow right" @click="prevImage(item)">&gt;</button>
       </div></center>
       
      

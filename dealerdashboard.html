@@ -104,23 +104,23 @@
     }
 
     .carousel-container {
+      width: 50%; /* Adjust to take 40%-50% of the screen width */
+      height: auto; /* Allow height to adjust based on image aspect ratio */
+      overflow: hidden; /* Ensure only one image is visible at a time */
       position: relative;
-      overflow: hidden;
-      width: 200px;
-      height: 200px;
-      border-radius: 10px;
+      margin: auto; /* Center the carousel horizontally */
     }
-
+    
     .carousel {
       display: flex;
-      transition: transform 0.3s ease;
+      transition: transform 0.5s ease; /* Smooth transition between images */
     }
-
+    
     .carousel img {
-      width: 200px;
-      height: 200px;
-      object-fit: cover;
-      border-radius: 10px;
+      flex: 0 0 auto; /* Ensure images don't shrink or grow */
+      width: 100%; /* Make the image fill the container */
+      max-width: 100%; /* Ensure images don't exceed container width */
+      height: auto; /* Maintain aspect ratio */
     }
 
     .carousel-arrow {
@@ -269,8 +269,8 @@
         <div class="carousel" :style="{ transform: `translateX(-${item.currentImage * 100}%)` }">
           <img v-for="(image, index) in item.images" :src="`data:${image.mimeType};base64,${image.imageData}`" :alt="'Product Image ' + index" :key="index">
         </div>
-        <button class="carousel-arrow left" @click="prevImage(item)">&lt;</button>
-        <button class="carousel-arrow right" @click="nextImage(item)">&gt;</button>
+        <button class="carousel-arrow left" @click="nextImage(item)">&lt;</button>
+        <button class="carousel-arrow right" @click="prevImage(item)">&gt;</button>
       </div>
       <h2>Product Name: {{item.item_name}}</h2>
       <span>Price: {{item.item_price}}</span><br>
