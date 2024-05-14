@@ -284,6 +284,8 @@
             <p class="text-blue-700">Quantity Ordered: {{ order.quantity_ordered }}</p>
             <p class="text-blue-700">Address: {{ order.address }}</p>
             <p class="text-blue-700">Pin: {{ order.pin_code }}</p>
+            <p>Order Status: <span v-if='order.order_status'>Delivered</span>
+              <span v-if="!order.order_status">Pending</span> </p>
           </div>
         </div>
       </div>
