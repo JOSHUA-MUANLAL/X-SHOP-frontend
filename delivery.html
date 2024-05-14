@@ -186,7 +186,7 @@
         <div class="orders" v-if="deliverydata.length>0">
             <h1>Delivery Details</h1>
             <div class="product-list" v-for="product in deliverydata" :key="product_id">
-                <div class="order-list" v-for="orders in product.orders" :key="order_id">
+                <div class="order-list text-white" v-for="orders in product.orders" :key="order_id">
                     <h4>Order Id: {{orders.order_id}}</h4>
                     <p>Customer Id: <span class="text-blue-700">{{orders.customer_email}}</span></p>
                     <p>Customer Name:  <span class="text-blue-700">{{orders.customer_name}}</span></p>

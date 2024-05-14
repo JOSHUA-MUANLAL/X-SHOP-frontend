@@ -299,6 +299,8 @@ td{
       <h4>Item price : {{x.item_price}} </h4>
       <h4>Order Date : {{x.order_date}} </h4>
       <h4>Delivery OTP : {{x.delivery_otp}} </h4>
+      <h4>Order Status: <span v-if='x.order_status'>Delivered</span>
+      <span v-if="!x.order_status">Pending</span> </h4>
   
     </div> 
   </div>
